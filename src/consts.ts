@@ -28,16 +28,24 @@ export const NAV_LINKS: SocialLink[] = [
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
-    href: 'https://github.com/jktrn',
+    href: 'https://www.youtube.com/@nomasprime',
+    label: 'YouTube',
+  },
+  {
+    href: 'https://bsky.app/profile/nomasprime.bsky.social',
+    label: 'BlueSky',
+  },
+  {
+    href: 'https://mastodon.social/@nomasprime',
+    label: 'Mastodon',
+  },
+  {
+    href: 'https://www.linkedin.com/in/nomasprime/',
+    label: 'LinkedIn',
+  },
+  {
+    href: 'https://github.com/nomasprime',
     label: 'GitHub',
-  },
-  {
-    href: 'https://twitter.com/enscry',
-    label: 'Twitter',
-  },
-  {
-    href: 'mailto:jason@enscribe.dev',
-    label: 'Email',
   },
   {
     href: '/rss.xml',
@@ -47,9 +55,10 @@ export const SOCIAL_LINKS: SocialLink[] = [
 
 export const ICON_MAP: IconMap = {
   Website: 'lucide:globe',
-  GitHub: 'lucide:github',
-  LinkedIn: 'lucide:linkedin',
-  Twitter: 'lucide:twitter',
-  Email: 'lucide:mail',
-  RSS: 'lucide:rss',
+  GitHub: 'ri:github-line',
+  LinkedIn: 'ri:linkedin-line',
+  BlueSky: 'ri:bluesky-line',
+  Mastodon: 'ri:mastodon-line',
+  YouTube: 'ri:youtube-line',
+  RSS: 'ri:rss-line',
 }
