@@ -1,16 +1,5 @@
-<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_271_118)">
-<rect width="512" height="74" fill="#CCCCCC"/>
-<rect y="146" width="512" height="74" fill="#CCCCCC"/>
-<rect y="292" width="512" height="74" fill="#CCCCCC"/>
-<rect y="438" width="512" height="74" fill="#CCCCCC"/>
-<rect y="74" width="72" height="72" fill="#CCCCCC"/>
-<rect y="366" width="72" height="72" fill="#CCCCCC"/>
-<rect x="440" y="220" width="72" height="72" fill="#CCCCCC"/>
-</g>
-<defs>
-<clipPath id="clip0_271_118">
-<rect width="512" height="512" fill="white"/>
-</clipPath>
-</defs>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 509.47">
+  <path d="M332.8,280.34v218.68c-16.24,5.1-33.18,8.63-50.63,10.4L281.6,0c129.37,12.84,230.4,121.99,230.4,254.74,0,8.64-.43,17.18-1.26,25.6h-177.93ZM459.22,229.13c-9.32-74.75-58.93-136.99-126.41-164.31v164.31s126.41,0,126.41,0Z" fill="#ccc"/>
+  <path d="M74.51,435.28C28.46,388.99,0,325.19,0,254.74S29.43,118.33,76.86,71.86h0s102.34,291.68,102.34,291.68V10.46c16.42-5.16,33.55-8.7,51.2-10.46v509.47c-17.42-1.73-34.32-5.2-50.53-10.25L65.05,180.56h0c-8.94,23-13.85,48.02-13.85,74.18,0,51.94,19.33,99.36,51.2,135.46,2.71,3.07,5.52,6.07,8.41,8.97l-36.3,36.11Z" fill="#ccc"/>
 </svg>
