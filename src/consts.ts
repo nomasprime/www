@@ -1,11 +1,15 @@
 import type { IconMap, SocialLink, Site } from '@/types'
 
+export const FEATURE_TOGGLE: Record<string, boolean> = {
+  authors: false
+}
+
 export const SITE: Site = {
   title: 'Nomas Prime',
   description:
     'astro-erudite is a opinionated, unstyled blogging template—built with Astro, Tailwind, and shadcn/ui.',
   href: 'https://astro-erudite.vercel.app',
-  author: 'jktrn',
+  author: 'nomasprime',
   locale: 'en-US',
   featuredPostCount: 2,
   postsPerPage: 3,
@@ -17,14 +21,17 @@ export const NAV_LINKS: SocialLink[] = [
     label: 'blog',
   },
   {
-    href: '/authors',
-    label: 'authors',
-  },
-  {
     href: '/about',
     label: 'about',
   },
 ]
+
+if (FEATURE_TOGGLE.authors) {
+  NAV_LINKS.push({
+    href: '/authors',
+    label: 'authors',
+  })
+}
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {

@@ -27,6 +27,7 @@ import { formatDate } from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
 import { render } from 'astro:content'
+import { FEATURE_TOGGLE } from '../../consts'
 
 export async function getStaticPaths() {
   const posts = await getAllPostsAndSubposts()
@@ -133,7 +134,7 @@ const tocSections = await getTOCSections(currentPostId)
           class="text-muted-foreground divide-border mb-4 flex flex-col items-center justify-center divide-y text-xs sm:flex-row sm:flex-wrap sm:divide-x sm:divide-y-0 sm:text-sm"
         >
           {
-            authors.length > 0 && (
+            FEATURE_TOGGLE.authors && authors.length > 0 && (
               <div class="flex w-full items-center justify-center gap-x-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
                 {authors.map((author) => (
                   <div class="flex items-center gap-x-1.5">
