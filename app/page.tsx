@@ -76,7 +76,7 @@ export default function Home() {
           onClick={handleTrackClick}
           className="rounded-md bg-black px-4 py-2 text-white dark:bg-white dark:text-black"
         >
-          Track PostHog Event
+          Track PostHog Event NEW
         </button>
       </main>
     </div>
