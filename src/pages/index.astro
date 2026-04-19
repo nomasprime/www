@@ -22,16 +22,17 @@ const posts = await getRecentPosts(SITE.featuredPostCount)
         ))
       }
     </ul>
-    <div class="flex justify-center">
-      <Link
-        href="/posts"
-        class={buttonVariants({ variant: 'ghost' }) + ' group'}
-      >
-        See all posts <span
-          class="ml-1.5 transition-transform group-hover:translate-x-1"
-          >&rarr;</span
-        >
-      </Link>
-    </div>
+    {
+      posts.length > 0 && (
+        <div class="flex justify-center">
+          <Link
+            href="/posts"
+            class={buttonVariants({ variant: 'ghost' }) + ' group'}
+          >
+            See all posts <span class="ml-1.5 transition-transform group-hover:translate-x-1">&rarr;</span>
+          </Link>
+        </div>
+      )
+    }
   </section>
 </Layout>
