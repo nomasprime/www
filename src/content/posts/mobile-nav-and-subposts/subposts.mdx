@@ -49,9 +49,9 @@ Here's how we handle this complexity:
 
 ```typescript title="src/lib/data-utils.ts" startLineNumber={40}
 export async function getAdjacentPosts(currentId: string): Promise<{
-  newer: CollectionEntry<'blog'> | null
-  older: CollectionEntry<'blog'> | null
-  parent: CollectionEntry<'blog'> | null
+  newer: CollectionEntry<'posts'> | null
+  older: CollectionEntry<'posts'> | null
+  parent: CollectionEntry<'posts'> | null
 }> {
   const allPosts = await getAllPosts()
 
@@ -60,7 +60,7 @@ export async function getAdjacentPosts(currentId: string): Promise<{
     const parent = allPosts.find((post) => post.id === parentId) || null
 
     // Get all sibling subposts
-    const posts = await getCollection('blog')
+    const posts = await getCollection('posts')
     const subposts = posts
       .filter(
         (post) =>
