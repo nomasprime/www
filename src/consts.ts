@@ -46,8 +46,12 @@ export const SOCIAL_LINKS: SocialLink[] = [
     label: 'YouTube',
   },
   {
-    href: 'https://bsky.app/profile/nomasprime.bsky.social',
-    label: 'BlueSky',
+    href: 'https://www.instagram.com/nomasprime/',
+    label: 'Instagram',
+  },
+  {
+    href: 'https://www.tiktok.com/@nomasprime',
+    label: 'TikTok',
   },
   {
     href: 'https://mastodon.social/@nomasprime',
@@ -56,6 +60,14 @@ export const SOCIAL_LINKS: SocialLink[] = [
   {
     href: 'https://www.linkedin.com/in/nomasprime/',
     label: 'LinkedIn',
+  },
+  {
+    href: 'https://bsky.app/profile/nomasprime.bsky.social',
+    label: 'BlueSky',
+  },
+  {
+    href: 'https://www.x.com/nomasprime',
+    label: 'X',
   },
   {
     href: 'https://github.com/nomasprime',
@@ -68,11 +80,13 @@ export const SOCIAL_LINKS: SocialLink[] = [
 ]
 
 export const ICON_MAP: IconMap = {
-  Website: 'lucide:globe',
   GitHub: 'ri:github-line',
   LinkedIn: 'ri:linkedin-line',
   BlueSky: 'ri:bluesky-line',
   Mastodon: 'ri:mastodon-line',
   YouTube: 'ri:youtube-line',
+  Instagram: 'ri:instagram-line',
+  TikTok: 'ri:tiktok-line',
+  X: 'ri:twitter-x-line',
   RSS: 'ri:rss-line',
 }
