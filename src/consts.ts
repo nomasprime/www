@@ -3,6 +3,7 @@ import type { IconMap, SocialLink, Site } from '@/types'
 export const FEATURE_TOGGLE: Record<string, boolean> = {
   about: false,
   authors: false,
+  posts: false
 }
 
 export const SITE: Site = {
@@ -16,12 +17,14 @@ export const SITE: Site = {
   postsPerPage: 3,
 }
 
-export const NAV_LINKS: SocialLink[] = [
-  {
+export const NAV_LINKS: SocialLink[] = []
+
+if (FEATURE_TOGGLE.posts) {
+  NAV_LINKS.push({
     href: '/posts',
     label: 'posts',
-  },
-]
+  })
+}
 
 if (FEATURE_TOGGLE.about) {
   NAV_LINKS.push({
