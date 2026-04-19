@@ -1,7 +1,8 @@
 import type { IconMap, SocialLink, Site } from '@/types'
 
 export const FEATURE_TOGGLE: Record<string, boolean> = {
-  authors: false
+  about: false,
+  authors: false,
 }
 
 export const SITE: Site = {
@@ -20,11 +21,14 @@ export const NAV_LINKS: SocialLink[] = [
     href: '/blog',
     label: 'blog',
   },
-  {
+]
+
+if (FEATURE_TOGGLE.about) {
+  NAV_LINKS.push({
     href: '/about',
     label: 'about',
-  },
-]
+  })
+}
 
 if (FEATURE_TOGGLE.authors) {
   NAV_LINKS.push({
