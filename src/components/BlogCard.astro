@@ -17,9 +17,10 @@ import { FEATURE_TOGGLE } from '../consts'
 
 interface Props {
   entry: CollectionEntry<'blog'>
+  isHero?: boolean
 }
 
-const { entry } = Astro.props
+const { entry, isHero } = Astro.props
 const formattedDate = formatDate(entry.data.date)
 const readTime = await getCombinedReadingTime(entry.id)
 const authors = await parseAuthors(entry.data.authors ?? [])
@@ -31,25 +32,25 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
 >
   <Link
     href={`/${entry.collection}/${entry.id}`}
-    class="flex flex-col gap-4 sm:flex-row"
+    class={isHero ? 'flex flex-col gap-4' : 'flex flex-col gap-4 sm:flex-row'}
   >
     {
       entry.data.image && (
-        <div class="max-w-3xs sm:shrink-0">
+        <div class={isHero ? 'w-full' : 'max-w-3xs sm:shrink-0'}>
           <Image
             src={entry.data.image}
             alt={entry.data.title}
             width={1200}
             height={630}
-            class="object-cover"
+            class={isHero ? "h-80 w-full object-cover rounded-lg" : "object-cover rounded-lg"}
           />
         </div>
       )
     }
 
     <div class="grow">
-      <h3 class="mb-1 text-lg font-medium">{entry.data.title}</h3>
-      <p class="text-muted-foreground mb-2 text-sm">{entry.data.description}</p>
+      <h3 class={isHero ? "mb-1 text-2xl font-semibold" : "mb-1 text-lg font-medium"}>{entry.data.title}</h3>
+      <p class={isHero ? "text-muted-foreground mb-4 text-base" : "text-muted-foreground mb-2 text-sm"}>{entry.data.description}</p>
 
       <div
         class="text-muted-foreground mb-2 flex flex-wrap items-center gap-x-2 text-xs"
