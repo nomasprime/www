@@ -48,6 +48,8 @@
     "typescript": "^5.8.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.6.0",
     "prettier": "^3.5.1",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-astro-organize-imports": "^0.4.11",
