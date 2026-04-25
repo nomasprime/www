@@ -10,4 +10,12 @@ describe('Header component', () => {
     expect(link).not.toBeNull()
     expect(link?.getAttribute('href')).toBe('/')
   })
+
+  test('renders theme toggle', async () => {
+    const html = await render(Header)
+    const toggle = html.querySelector('#theme-toggle')
+
+    expect(toggle).not.toBeNull()
+    expect(toggle?.getAttribute('title')).toBe('Toggle theme')
+  })
 })
