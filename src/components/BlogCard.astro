@@ -12,8 +12,8 @@ import { formatDate } from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
-import Link from './Link.astro'
 import { FEATURE_TOGGLE } from '../consts'
+import Link from './Link.astro'
 
 interface Props {
   entry: CollectionEntry<'posts'>
@@ -42,15 +42,31 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
             alt={entry.data.title}
             width={1200}
             height={630}
-            class={isHero ? "h-80 w-full object-cover rounded-lg" : "object-cover rounded-lg"}
+            class={
+              isHero
+                ? 'h-80 w-full rounded-lg object-cover'
+                : 'rounded-lg object-cover'
+            }
           />
         </div>
       )
     }
 
     <div class="grow">
-      <h3 class={isHero ? "mb-1 text-2xl font-semibold" : "mb-1 text-lg font-medium"}>{entry.data.title}</h3>
-      <p class={isHero ? "text-muted-foreground mb-4 text-base" : "text-muted-foreground mb-2 text-sm"}>{entry.data.description}</p>
+      <h3
+        class={isHero
+          ? 'mb-1 text-2xl font-semibold'
+          : 'mb-1 text-lg font-medium'}
+      >
+        {entry.data.title}
+      </h3>
+      <p
+        class={isHero
+          ? 'text-muted-foreground mb-4 text-base'
+          : 'text-muted-foreground mb-2 text-sm'}
+      >
+        {entry.data.description}
+      </p>
 
       <div
         class="text-muted-foreground mb-2 flex flex-wrap items-center gap-x-2 text-xs"

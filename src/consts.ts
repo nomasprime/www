@@ -3,7 +3,7 @@ import type { IconMap, SocialLink, Site } from '@/types'
 export const FEATURE_TOGGLE: Record<string, boolean> = {
   about: false,
   authors: false,
-  posts: false
+  posts: false,
 }
 
 export const SITE: Site = {

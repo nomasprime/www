@@ -24,19 +24,19 @@ import logo from '../../public/static/logo.svg'
     <div class="flex items-center sm:gap-4">
       {
         NAV_LINKS.length > 0 && (
-          <nav class="hidden items-center gap-4 text-sm sm:flex sm:gap-6">
-            {
-              NAV_LINKS.map((item) => (
+          <>
+            <nav class="hidden items-center gap-4 text-sm sm:flex sm:gap-6">
+              {NAV_LINKS.map((item) => (
                 <Link
                   href={item.href}
                   class="text-foreground/60 hover:text-foreground/80 capitalize transition-colors"
                 >
                   {item.label}
                 </Link>
-              ))
-            }
-          </nav>
-          <MobileMenu client:load transition:persist />
+              ))}
+            </nav>
+            <MobileMenu client:load transition:persist />
+          </>
         )
       }
       <ThemeToggle transition:persist />
