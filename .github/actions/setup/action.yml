@@ -1,0 +1,21 @@
+name: Setup
+description: Set up pnpm and Node, then install dependencies. Assumes the repo has already been checked out.
+
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@v6
+    - uses: actions/setup-node@v6
+      with:
+        node-version-file: .tool-versions
+        cache: pnpm
+    - uses: actions/cache@v4
+      with:
+        path: |
+          .astro
+          node_modules/.vite
+          node_modules/.cache
+        key: build-cache-v1-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', '*.config.*', 'tsconfig*.json', '.tool-versions') }}
+        restore-keys: build-cache-v1-${{ runner.os }}-
+    - run: pnpm install --frozen-lockfile
+      shell: bash
