@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup
-      - run: pnpm prettier
+      - run: pnpm prettier:github
       - uses: autofix-ci/action@v1
         with:
           commit-message: 'Apply Prettier format'

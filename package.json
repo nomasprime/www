@@ -10,6 +10,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "prettier": "prettier . --write --ignore-path .gitignore --ignore-path .prettierignore",
+    "prettier:github": "prettier . --write '!.github/**' --ignore-path .gitignore --ignore-path .prettierignore",
     "prettier:check": "prettier . --check --ignore-path .gitignore --ignore-path .prettierignore",
     "postinstall": "patch-package",
     "test": "vitest run && playwright test",
