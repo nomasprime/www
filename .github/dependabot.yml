@@ -28,7 +28,11 @@ updates:
           - 'prettier-plugin-*'
       dev-dependencies:
         dependency-type: development
-
+      expressive-code:
+        patterns:
+          - "astro-expressive-code"
+          - "expressive-code"
+          - "@expressive-code/*"
   - package-ecosystem: github-actions
     directory: '/'
     schedule:
