@@ -30,9 +30,9 @@ updates:
         dependency-type: development
       expressive-code:
         patterns:
-          - "astro-expressive-code"
-          - "expressive-code"
-          - "@expressive-code/*"
+          - 'astro-expressive-code'
+          - 'expressive-code'
+          - '@expressive-code/*'
   - package-ecosystem: github-actions
     directory: '/'
     schedule:
