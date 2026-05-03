@@ -19,8 +19,13 @@ import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 
 import tailwindcss from '@tailwindcss/vite'
 
+import cloudflare from '@astrojs/cloudflare'
+
+const isVitest = process.env.VITEST === 'true'
+
 export default defineConfig({
   site: 'https://astro-erudite.vercel.app',
+
   integrations: [
     expressiveCode({
       themes: ['github-light', 'github-dark'],
@@ -70,16 +75,20 @@ export default defineConfig({
     sitemap(),
     icon(),
   ],
+
   vite: {
     plugins: [tailwindcss()],
   },
+
   server: {
     port: 1234,
     host: true,
   },
+
   devToolbar: {
     enabled: false,
   },
+
   markdown: {
     syntaxHighlight: false,
     rehypePlugins: [
@@ -110,4 +119,15 @@ export default defineConfig({
     ],
     remarkPlugins: [remarkMath, remarkEmoji],
   },
+
+  // Vitest's Vite SSR environment conflicts with the Cloudflare Vite plugin,
+  // so unit tests use Astro's server runtime while production uses Workers.
+  ...(isVitest
+    ? { output: 'server' as const }
+    : {
+        adapter: cloudflare({
+          imageService: 'compile',
+          prerenderEnvironment: 'node',
+        }),
+      }),
 })

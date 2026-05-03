@@ -1,5 +1,6 @@
 ---
 import BlogCard from '@/components/BlogCard.astro'
+import EmailSignup from '@/components/EmailSignup.astro'
 import Link from '@/components/Link.astro'
 import PageHead from '@/components/PageHead.astro'
 import { buttonVariants } from '@/components/ui/button'
@@ -37,5 +38,6 @@ const posts = await getRecentPosts(SITE.featuredPostCount)
         </div>
       )
     }
+    <EmailSignup />
   </section>
 </Layout>
