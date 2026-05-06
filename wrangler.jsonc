@@ -10,12 +10,12 @@
   "routes": [
     {
       "pattern": "nomasprime.com",
-      "custom_domain": true
+      "custom_domain": true,
     },
     {
       "pattern": "www.nomasprime.com",
-      "custom_domain": true
-    }
+      "custom_domain": true,
+    },
   ],
   "observability": {
     "enabled": true,
