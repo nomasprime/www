@@ -7,8 +7,10 @@ yarn-error.log*
 pnpm-debug.log*
 .env
 .env.production
+worker-configuration.d.ts
 .DS_Store
 .idea/
+.wrangler/
 teaser.pptx
 ~$teaser.pptx
 

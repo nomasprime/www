@@ -1,0 +1,130 @@
+---
+import { buttonVariants } from '@/components/ui/button'
+---
+
+<section
+  class="border-border bg-secondary/30 flex flex-col gap-y-3 rounded-md border p-4"
+  aria-labelledby="email-signup-heading"
+  data-email-signup
+>
+  <div class="flex flex-col gap-y-1">
+    <h2 id="email-signup-heading" class="text-base font-medium">
+      Get only the posts others are enjoying
+    </h2>
+    <p class="text-muted-foreground text-sm">
+      High signal posts straight to your inbox — no noise
+    </p>
+  </div>
+  <form class="flex flex-col gap-3 sm:flex-row" data-email-signup-form>
+    <label class="sr-only" for="email-signup-email">Email address</label>
+    <input
+      id="email-signup-email"
+      class="border-border bg-background placeholder:text-muted-foreground focus-visible:ring-ring min-h-9 flex-1 rounded-md border px-3 py-2 text-sm transition-colors outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+      type="email"
+      name="email"
+      inputmode="email"
+      autocomplete="email"
+      placeholder="you@example.com"
+      required
+    />
+    <input type="hidden" name="referrer" data-email-signup-referrer />
+    <div class="sr-only" aria-hidden="true">
+      <label for="email-signup-website">Website</label>
+      <input
+        id="email-signup-website"
+        type="text"
+        name="website"
+        tabindex="-1"
+        autocomplete="off"
+      />
+    </div>
+    <button
+      class={buttonVariants({ className: 'sm:w-auto' })}
+      type="submit"
+      data-email-signup-submit
+    >
+      Subscribe
+    </button>
+  </form>
+  <p
+    class="hidden text-sm"
+    role="status"
+    aria-live="polite"
+    data-email-signup-status
+  >
+  </p>
+</section>
+
+<script>
+  import { actions, isInputError } from 'astro:actions'
+
+  const signup = document.querySelector<HTMLElement>('[data-email-signup]')
+  const form = signup?.querySelector<HTMLFormElement>(
+    '[data-email-signup-form]',
+  )
+  const submitButton = signup?.querySelector<HTMLButtonElement>(
+    '[data-email-signup-submit]',
+  )
+  const referrer = signup?.querySelector<HTMLInputElement>(
+    '[data-email-signup-referrer]',
+  )
+  const status = signup?.querySelector<HTMLElement>(
+    '[data-email-signup-status]',
+  )
+
+  type SignupStatus = {
+    message: string
+    tone: 'error' | 'muted' | 'success'
+  }
+
+  const statusClasses = {
+    error: 'text-destructive text-sm',
+    muted: 'text-muted-foreground text-sm',
+    success: 'text-sm text-foreground',
+  } satisfies Record<SignupStatus['tone'], string>
+
+  function renderStatus(element: HTMLElement, status: SignupStatus) {
+    element.className = statusClasses[status.tone]
+    element.textContent = status.message
+  }
+
+  async function subscribe(form: HTMLFormElement): Promise<SignupStatus> {
+    const { error } = await actions.subscribe(new FormData(form))
+
+    if (!error) {
+      return {
+        message: 'Thanks, you are subscribed',
+        tone: 'success',
+      }
+    }
+
+    return {
+      message: isInputError(error)
+        ? 'Please enter a valid email address'
+        : 'Unable to subscribe right now',
+      tone: 'error',
+    }
+  }
+
+  if (form && submitButton && status) {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault()
+
+      if (referrer) referrer.value = window.location.href
+
+      submitButton.disabled = true
+      submitButton.textContent = 'Subscribing...'
+      renderStatus(status, {
+        message: 'Sending...',
+        tone: 'muted',
+      })
+
+      const result = await subscribe(form)
+      renderStatus(status, result)
+
+      if (result.tone === 'success') form.reset()
+      submitButton.disabled = false
+      submitButton.textContent = 'Subscribe'
+    })
+  }
+</script>
