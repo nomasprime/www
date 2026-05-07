@@ -9,20 +9,33 @@ import Layout from '@/layouts/Layout.astro'
 import { getRecentPosts } from '@/lib/data-utils'
 
 const posts = await getRecentPosts(SITE.featuredPostCount)
+const [heroPost, ...remainingPosts] = posts
 ---
 
 <Layout class="max-w-3xl">
   <PageHead slot="head" title="Home" />
   <section class="flex flex-col gap-y-4">
-    <ul class="flex flex-col gap-y-4">
-      {
-        posts.map((post, index) => (
+    {
+      heroPost && (
+        <ul class="flex flex-col gap-y-4">
           <li>
-            <BlogCard entry={post} isHero={index === 0} />
+            <BlogCard entry={heroPost} isHero />
           </li>
-        ))
-      }
-    </ul>
+        </ul>
+      )
+    }
+    <EmailSignup />
+    {
+      remainingPosts.length > 0 && (
+        <ul class="flex flex-col gap-y-4">
+          {remainingPosts.map((post) => (
+            <li>
+              <BlogCard entry={post} />
+            </li>
+          ))}
+        </ul>
+      )
+    }
     {
       posts.length > 0 && (
         <div class="flex justify-center">
@@ -38,6 +51,5 @@ const posts = await getRecentPosts(SITE.featuredPostCount)
         </div>
       )
     }
-    <EmailSignup />
   </section>
 </Layout>
