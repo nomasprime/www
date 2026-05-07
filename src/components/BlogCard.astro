@@ -8,63 +8,125 @@ import {
   isSubpost,
   parseAuthors,
 } from '@/lib/data-utils'
-import { formatDate } from '@/lib/utils'
+import { cn, formatDate } from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
+import { cva, type VariantProps } from 'class-variance-authority'
 import { FEATURE_TOGGLE } from '../consts'
 import Link from './Link.astro'
 
-interface Props {
+const blogCardVariants = cva(
+  'hover:bg-secondary/50 rounded-xl border p-4 transition-colors duration-300 ease-in-out',
+  {
+    variants: {
+      variant: {
+        default: '',
+        hero: '',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+    },
+  },
+)
+
+const blogCardLinkVariants = cva('flex flex-col gap-4', {
+  variants: {
+    variant: {
+      default: 'sm:flex-row',
+      hero: '',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+})
+
+const blogCardImageWrapperVariants = cva('', {
+  variants: {
+    variant: {
+      default: 'max-w-3xs sm:shrink-0',
+      hero: 'w-full',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+})
+
+const blogCardImageVariants = cva('rounded-lg object-cover', {
+  variants: {
+    variant: {
+      default: '',
+      hero: 'h-80 w-full',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+})
+
+const blogCardTitleVariants = cva('mb-1', {
+  variants: {
+    variant: {
+      default: 'text-lg font-medium',
+      hero: 'text-2xl font-semibold',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+})
+
+const blogCardDescriptionVariants = cva('text-muted-foreground', {
+  variants: {
+    variant: {
+      default: 'mb-2 text-sm',
+      hero: 'mb-4 text-base',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+})
+
+interface Props extends VariantProps<typeof blogCardVariants> {
   entry: CollectionEntry<'posts'>
-  isHero?: boolean
+  class?: string
 }
 
-const { entry, isHero } = Astro.props
+const { entry, variant = 'default', class: className } = Astro.props
 const formattedDate = formatDate(entry.data.date)
 const readTime = await getCombinedReadingTime(entry.id)
 const authors = await parseAuthors(entry.data.authors ?? [])
 const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
 ---
 
-<div
-  class="hover:bg-secondary/50 rounded-xl border p-4 transition-colors duration-300 ease-in-out"
->
+<div class={cn(blogCardVariants({ variant }), className)}>
   <Link
     href={`/${entry.collection}/${entry.id}`}
-    class={isHero ? 'flex flex-col gap-4' : 'flex flex-col gap-4 sm:flex-row'}
+    class={blogCardLinkVariants({ variant })}
   >
     {
       entry.data.image && (
-        <div class={isHero ? 'w-full' : 'max-w-3xs sm:shrink-0'}>
+        <div class={blogCardImageWrapperVariants({ variant })}>
           <Image
             src={entry.data.image}
             alt={entry.data.title}
             width={1200}
             height={630}
-            class={
-              isHero
-                ? 'h-80 w-full rounded-lg object-cover'
-                : 'rounded-lg object-cover'
-            }
+            class={blogCardImageVariants({ variant })}
           />
         </div>
       )
     }
 
     <div class="grow">
-      <h3
-        class={isHero
-          ? 'mb-1 text-2xl font-semibold'
-          : 'mb-1 text-lg font-medium'}
-      >
+      <h3 class={blogCardTitleVariants({ variant })}>
         {entry.data.title}
       </h3>
-      <p
-        class={isHero
-          ? 'text-muted-foreground mb-4 text-base'
-          : 'text-muted-foreground mb-2 text-sm'}
-      >
+      <p class={blogCardDescriptionVariants({ variant })}>
         {entry.data.description}
       </p>
 
