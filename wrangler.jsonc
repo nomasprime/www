@@ -2,7 +2,7 @@
   "compatibility_date": "2026-05-02",
   "compatibility_flags": ["global_fetch_strictly_public"],
   "name": "nomasprime",
-  "main": "@astrojs/cloudflare/entrypoints/server",
+  "main": "./src/worker.ts",
   "assets": {
     "directory": "./dist/client",
     "binding": "ASSETS",
@@ -14,6 +14,10 @@
     },
     {
       "pattern": "www.nomasprime.com",
+      "custom_domain": true,
+    },
+    {
+      "pattern": "e.nomasprime.com",
       "custom_domain": true,
     },
   ],
