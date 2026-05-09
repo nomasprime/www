@@ -8,8 +8,9 @@ import { SITE } from '@/consts'
 import Layout from '@/layouts/Layout.astro'
 import { getRecentPosts } from '@/lib/data-utils'
 
-const posts = await getRecentPosts(SITE.featuredPostCount)
-const [heroPost, ...remainingPosts] = posts
+const posts = await getRecentPosts(SITE.featuredPostCount + 1)
+const featuredPosts = posts.slice(0, SITE.featuredPostCount)
+const [heroPost, ...remainingPosts] = featuredPosts
 ---
 
 <Layout class="max-w-3xl">
@@ -37,7 +38,7 @@ const [heroPost, ...remainingPosts] = posts
       )
     }
     {
-      posts.length > 0 && (
+      posts.length > SITE.featuredPostCount && (
         <div class="flex justify-center">
           <Link
             href="/posts"
