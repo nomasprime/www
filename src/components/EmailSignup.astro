@@ -1,18 +1,28 @@
 ---
 import { buttonVariants } from '@/components/ui/button'
+
+interface Props {
+  heading?: string
+  description?: string
+}
+
+const {
+  heading = 'Get only the posts others are enjoying',
+  description = 'High signal posts straight to your inbox — no noise',
+} = Astro.props
 ---
 
 <section
-  class="border-border bg-secondary/30 flex flex-col gap-y-3 rounded-md border p-4"
+  class="not-prose border-border bg-secondary/30 flex flex-col gap-y-3 rounded-md border p-4"
   aria-labelledby="email-signup-heading"
   data-email-signup
 >
   <div class="flex flex-col gap-y-1">
     <h2 id="email-signup-heading" class="text-base font-medium">
-      Get only the posts others are enjoying
+      {heading}
     </h2>
     <p class="text-muted-foreground text-sm">
-      High signal posts straight to your inbox — no noise
+      {description}
     </p>
   </div>
   <form class="flex flex-col gap-3 sm:flex-row" data-email-signup-form>
@@ -58,19 +68,7 @@ import { buttonVariants } from '@/components/ui/button'
 <script>
   import { actions, isInputError } from 'astro:actions'
 
-  const signup = document.querySelector<HTMLElement>('[data-email-signup]')
-  const form = signup?.querySelector<HTMLFormElement>(
-    '[data-email-signup-form]',
-  )
-  const submitButton = signup?.querySelector<HTMLButtonElement>(
-    '[data-email-signup-submit]',
-  )
-  const referrer = signup?.querySelector<HTMLInputElement>(
-    '[data-email-signup-referrer]',
-  )
-  const status = signup?.querySelector<HTMLElement>(
-    '[data-email-signup-status]',
-  )
+  const boundForms = new WeakSet<HTMLFormElement>()
 
   type SignupStatus = {
     message: string
@@ -106,25 +104,58 @@ import { buttonVariants } from '@/components/ui/button'
     }
   }
 
-  if (form && submitButton && status) {
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault()
+  function setupEmailSignups(root: ParentNode = document) {
+    root
+      .querySelectorAll<HTMLElement>('[data-email-signup]')
+      .forEach((signup) => {
+        const form = signup.querySelector<HTMLFormElement>(
+          '[data-email-signup-form]',
+        )
+        const submitButton = signup.querySelector<HTMLButtonElement>(
+          '[data-email-signup-submit]',
+        )
+        const referrer = signup.querySelector<HTMLInputElement>(
+          '[data-email-signup-referrer]',
+        )
+        const status = signup.querySelector<HTMLElement>(
+          '[data-email-signup-status]',
+        )
 
-      if (referrer) referrer.value = window.location.href
+        if (!form || !submitButton || !status || boundForms.has(form)) return
+        boundForms.add(form)
 
-      submitButton.disabled = true
-      submitButton.textContent = 'Subscribing...'
-      renderStatus(status, {
-        message: 'Sending...',
-        tone: 'muted',
+        form.addEventListener('submit', async (event) => {
+          event.preventDefault()
+
+          if (referrer) referrer.value = window.location.href
+
+          submitButton.disabled = true
+          submitButton.textContent = 'Subscribing...'
+          renderStatus(status, {
+            message: 'Sending...',
+            tone: 'muted',
+          })
+
+          try {
+            const result = await subscribe(form)
+            renderStatus(status, result)
+
+            if (result.tone === 'success') form.reset()
+          } catch {
+            renderStatus(status, {
+              message: 'Unable to subscribe right now',
+              tone: 'error',
+            })
+          } finally {
+            submitButton.disabled = false
+            submitButton.textContent = 'Subscribe'
+          }
+        })
       })
-
-      const result = await subscribe(form)
-      renderStatus(status, result)
-
-      if (result.tone === 'success') form.reset()
-      submitButton.disabled = false
-      submitButton.textContent = 'Subscribe'
-    })
   }
+
+  setupEmailSignups()
+  document.addEventListener('astro:page-load', () => {
+    setupEmailSignups()
+  })
 </script>
