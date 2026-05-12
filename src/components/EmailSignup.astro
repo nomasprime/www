@@ -68,19 +68,7 @@ const {
 <script>
   import { actions, isInputError } from 'astro:actions'
 
-  const signup = document.querySelector<HTMLElement>('[data-email-signup]')
-  const form = signup?.querySelector<HTMLFormElement>(
-    '[data-email-signup-form]',
-  )
-  const submitButton = signup?.querySelector<HTMLButtonElement>(
-    '[data-email-signup-submit]',
-  )
-  const referrer = signup?.querySelector<HTMLInputElement>(
-    '[data-email-signup-referrer]',
-  )
-  const status = signup?.querySelector<HTMLElement>(
-    '[data-email-signup-status]',
-  )
+  const boundForms = new WeakSet<HTMLFormElement>()
 
   type SignupStatus = {
     message: string
@@ -116,25 +104,58 @@ const {
     }
   }
 
-  if (form && submitButton && status) {
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault()
+  function setupEmailSignups(root: ParentNode = document) {
+    root
+      .querySelectorAll<HTMLElement>('[data-email-signup]')
+      .forEach((signup) => {
+        const form = signup.querySelector<HTMLFormElement>(
+          '[data-email-signup-form]',
+        )
+        const submitButton = signup.querySelector<HTMLButtonElement>(
+          '[data-email-signup-submit]',
+        )
+        const referrer = signup.querySelector<HTMLInputElement>(
+          '[data-email-signup-referrer]',
+        )
+        const status = signup.querySelector<HTMLElement>(
+          '[data-email-signup-status]',
+        )
 
-      if (referrer) referrer.value = window.location.href
+        if (!form || !submitButton || !status || boundForms.has(form)) return
+        boundForms.add(form)
 
-      submitButton.disabled = true
-      submitButton.textContent = 'Subscribing...'
-      renderStatus(status, {
-        message: 'Sending...',
-        tone: 'muted',
+        form.addEventListener('submit', async (event) => {
+          event.preventDefault()
+
+          if (referrer) referrer.value = window.location.href
+
+          submitButton.disabled = true
+          submitButton.textContent = 'Subscribing...'
+          renderStatus(status, {
+            message: 'Sending...',
+            tone: 'muted',
+          })
+
+          try {
+            const result = await subscribe(form)
+            renderStatus(status, result)
+
+            if (result.tone === 'success') form.reset()
+          } catch {
+            renderStatus(status, {
+              message: 'Unable to subscribe right now',
+              tone: 'error',
+            })
+          } finally {
+            submitButton.disabled = false
+            submitButton.textContent = 'Subscribe'
+          }
+        })
       })
-
-      const result = await subscribe(form)
-      renderStatus(status, result)
-
-      if (result.tone === 'success') form.reset()
-      submitButton.disabled = false
-      submitButton.textContent = 'Subscribe'
-    })
   }
+
+  setupEmailSignups()
+  document.addEventListener('astro:page-load', () => {
+    setupEmailSignups()
+  })
 </script>
