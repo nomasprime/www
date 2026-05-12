@@ -56,8 +56,12 @@
         (e.__SV = 1))
     })(document, window.posthog || [])
 
+    const posthogApiHost = window.location.hostname.endsWith('.workers.dev')
+      ? `${window.location.origin}/ph`
+      : 'https://e.nomasprime.com'
+
     posthog.init('phc_IXe9CYjbxGFgOKRkpiYVUozwTB1unr6nAZmIqmPbTyT', {
-      api_host: 'https://e.nomasprime.com',
+      api_host: posthogApiHost,
       ui_host: 'https://eu.posthog.com',
       defaults: '2026-01-30',
       capture_pageview: 'history_change',

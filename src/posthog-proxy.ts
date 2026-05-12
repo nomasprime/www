@@ -17,11 +17,15 @@ export async function handlePostHogProxyRequest(
   const search = url.search
   const pathWithParams = pathname + search
 
-  if (pathname.startsWith('/static/') || pathname.startsWith('/array/')) {
+  if (isPostHogAssetPath(pathname)) {
     return retrieveAsset(request, pathWithParams, ctx)
   } else {
     return forwardRequest(request, pathWithParams)
   }
+}
+
+function isPostHogAssetPath(pathname: string) {
+  return pathname.startsWith('/static/') || pathname.startsWith('/array/')
 }
 
 async function retrieveAsset(
