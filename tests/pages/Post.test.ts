@@ -58,7 +58,8 @@ async function renderPostPage() {
     parseAuthors: vi.fn(async () => []),
   }))
 
-  const { default: PostPage } = await import('../../src/pages/posts/[...id].astro')
+  const { default: PostPage } =
+    await import('../../src/pages/posts/[...id].astro')
 
   return await render(PostPage, {
     props: post,
