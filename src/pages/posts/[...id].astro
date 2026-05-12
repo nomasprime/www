@@ -28,6 +28,7 @@ import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
 import { render } from 'astro:content'
 import { FEATURE_TOGGLE } from '../../consts'
+import EmailSignUp from '@/components/EmailSignup.astro'
 
 export async function getStaticPaths() {
   const posts = await getAllPostsAndSubposts()
@@ -226,6 +227,9 @@ const tocSections = await getTOCSections(currentPostId)
 
     <article class="prose col-start-2 max-w-none">
       <Content />
+      <EmailSignUp
+        heading="Don't miss out on the next post"
+      />
     </article>
 
     {
