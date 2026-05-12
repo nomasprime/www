@@ -1,0 +1,42 @@
+---
+title: 'Reimagining Harness Engineering: Thinking In Shapes'
+description: ""
+date: 2024-06-01
+tags: ['v1.0.0']
+image: './banner.png'
+authors: ['enscribe']
+draft: false
+order: 1
+---
+
+# Reimagining Harness Engineering: Thinking In Shapes
+
+I've come to think of AI, specifically LLMs, as shape producing machines, a bit like a giant ball of play dough that's continuously pushed through stencils [context] until you end up with a bit of play dough that satisfies.
+
+In a transformer, roughly speaking:
+
+1. Data is broken down into small units [tokens]
+2. Each token is assigned an ID and mapped to an embedding vector
+3. Each token-position is repeatedly transformed through layers into new hidden-state vectors
+4. Those hidden states become increasingly context-shaped
+5. The final hidden states are used to produce probabilities over possible outputs
+
+Therefore, an LLM can produce as many shape permutations from these tokens and vectors and its training data size allows.
+
+So, when we're talking about building a harness what we're actually talking about is a constraint system that carves an admissible subset out of an ambient shape space. Thinking about it like this makes it much easier to reason about and avoids getting caught up in the distracting hype bubble.
+
+In any given situation [context] we want to narrow the shape of what the LLM and the agent harness produces to get closer to the desired shape:
+
+1. LLM
+    1. Data
+    2. Guardrails
+2. Project Harness
+    1. Instructions, memory, and other data
+    2. Guardrails
+    3. Prompting
+
+While we might not have control over an individual LLM it's important to think of it as a harness dependency — if the LLM changes, the harness is effected.
+
+The trick to maximising value is getting the right amount of context at each layer to produce the desired result in most use cases [contexts] in the least number of iterations [further context]… yes, I'm really trying to drill in the importance of context, including feedback — it's our shaping agent.
+
+Now that we have this shared understanding, the next step is to look at how this might relate to and integrate with existing software engineering practices.
