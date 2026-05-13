@@ -1,29 +1,35 @@
 ---
-title: 'Reimagine Harness Engineering: Thinking In Shapes'
+title: 'Reimagine Harness Engineering: Think In Shapes'
 description: ""
-date: 2024-06-01
-tags: ['v1.0.0']
+date: 2026-05-13
+tags: []
 image: './banner.png'
 authors: ['enscribe']
 draft: false
 order: 1
 ---
 
-I've come to think of AI, specifically LLMs, as shape producing machines, a bit like a giant ball of play dough that's continuously pushed through stencils [context] until you end up with a bit of play dough that satisfies.
+## LLMs
 
-In a transformer, roughly speaking:
+I've come to think about AI, especially LLMs, as though they’re a kind of shape producing machines, like a giant balls of play dough continuously pushed through stencils until you end up with chunks of play dough that satisfy.
 
-1. Data is broken down into small units [tokens]
+In a transformer, roughly speaking, we can start to see how the play dough (tokens) gets reshaped through the various layers (stencils) to produce output (a chunk of play dough):
+
+1. Data is broken down into small units called tokens
 2. Each token is assigned an ID and mapped to an embedding vector
 3. Each token-position is repeatedly transformed through layers into new hidden-state vectors
 4. Those hidden states become increasingly context-shaped
 5. The final hidden states are used to produce probabilities over possible outputs
 
-Therefore, an LLM can produce as many shape permutations from these tokens and vectors and its training data size allows.
+LMMs can produce a vast number of permutations, the bigger the LLM, the larger the number of shapes it’s capable of producing.
 
-So, when we're talking about building a harness what we're actually talking about is a constraint system that carves an admissible subset out of an ambient shape space. Thinking about it like this makes it much easier to reason about and avoids getting caught up in the distracting hype bubble.
+## Harness Engineering
 
-In any given situation [context] we want to narrow the shape of what the LLM and the agent harness produces to get closer to the desired shape:
+So, building a harness is really about continuing to narrow or reduce the number of shape permutations, a constraint system that carves out an admissible subset from an ambient shape space.
+
+I find thinking about it like this much easier to reason about and shut out all the noise coming from the distracting hype bubble.
+
+In any given use case, or context, we want to effectively narrow the shape of what the LLM and harness produces to get closer to an admissible shape:
 
 1. LLM
     1. Data
@@ -33,8 +39,8 @@ In any given situation [context] we want to narrow the shape of what the LLM and
     2. Guardrails
     3. Prompting
 
-While we might not have control over an individual LLM it's important to think of it as a harness dependency — if the LLM changes, the harness is effected.
+While we might not have control over an individual LLM it's important to think of it as a harness dependency — if the LLM changes, the harness is effected to varying degrees.
 
-The trick to maximising value is getting the right amount of context at each layer to produce the desired result in most use cases [contexts] in the least number of iterations [further context]… yes, I'm really trying to drill in the importance of context, including feedback — it's our shaping agent.
+The trick to maximising value is getting the right amount of context at each layer to produce the desired result in most use cases (contexts) in the least number of iterations (further context)… yes, I'm really trying to drill in the importance of context, including feedback — it's our shaping agent.
 
-Now that we have this shared understanding, the next step is to look at how this might relate to and integrate with existing software engineering practices.
+Now that we have this shared understanding, the next step is to look at how we can get significantly better results simply by doubling down on existing best practices and adjusting existing environments for agents to flourish.
