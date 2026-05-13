@@ -27,22 +27,21 @@ LLMs can produce a vast number of permutations; the bigger the LLM, the larger t
 
 So, building a harness is really about continuing to narrow or reduce the number of shape permutations, a constraint system that carves out an admissible subset from an ambient shape space.
 
-In practice, that means tests, repo instructions, memory, tools, and review loops reduce the set of outputs the agent is likely to produce. The harness shapes the agent away from plausible but wrong work and toward changes that fit the project.
+Thinking about it like this makes it easier to reason about the tangible benefits instead of getting distracted by all the hype.
 
-I find thinking about it like this much easier to reason about and shut out all the noise coming from the distracting hype bubble.
-
-In any given use case, or context, we want to effectively narrow the shape of what the LLM and harness produce to get closer to an admissible shape:
+Each layer reduces the number of possible shapes by adding more specific context and constraints:
 
 1. LLM
-    1. Data
+    1. Data (training and alignment)
     2. Guardrails
-2. Project Harness
-    1. Instructions, memory, and other data
-    2. Guardrails
+2. Harness
+    1. Data (project files and agent-specific guidance)
+    2. Tools
     3. Prompting
+    4. Guardrails
 
 While we might not have control over an individual LLM, it's important to think of it as a harness dependency — if the LLM changes, the harness is affected to varying degrees.
 
-The trick to maximising value is getting the right amount of context at each layer to produce the desired result in most use cases (contexts) in the least number of iterations (further context)… Yes, I'm really trying to drill in the importance of context, including feedback — it's our shaping agent.
+The trick to maximising value is adjusting the context at each layer, from general to more specific. Done well, the agent can execute effectively across the widest range of use cases within its purview and produce admissible shapes in the fewest iterations.
 
 Now that we have this shared understanding, the next step is to look at how we can get significantly better results simply by doubling down on existing best practices and adjusting existing environments for agents to flourish.
