@@ -1,6 +1,6 @@
 ---
 title: 'Reimagine Harness Engineering: Think In Shapes'
-description: ""
+description: "A practical framing for treating LLMs and agent harnesses as shape-producing systems constrained by context, guardrails, and feedback."
 date: 2026-05-13
 tags: []
 image: './banner.png'
@@ -11,7 +11,7 @@ order: 1
 
 ## LLMs
 
-I've come to think about AI, especially LLMs, as though they’re a kind of shape producing machines, like a giant balls of play dough continuously pushed through stencils until you end up with chunks of play dough that satisfy.
+I've come to think about AI, especially an LLM, as a shape-producing machine: like a giant ball of play dough continuously pushed through stencils until you end up with a chunk of play dough that satisfies.
 
 In a transformer, roughly speaking, we can start to see how the play dough (tokens) gets reshaped through the various layers (stencils) to produce output (a chunk of play dough):
 
@@ -21,15 +21,17 @@ In a transformer, roughly speaking, we can start to see how the play dough (toke
 4. Those hidden states become increasingly context-shaped
 5. The final hidden states are used to produce probabilities over possible outputs
 
-LMMs can produce a vast number of permutations, the bigger the LLM, the larger the number of shapes it’s capable of producing.
+LLMs can produce a vast number of permutations; the bigger the LLM, the larger the number of shapes it’s capable of producing.
 
 ## Harness Engineering
 
 So, building a harness is really about continuing to narrow or reduce the number of shape permutations, a constraint system that carves out an admissible subset from an ambient shape space.
 
+In practice, that means tests, repo instructions, memory, tools, and review loops reduce the set of outputs the agent is likely to produce. The harness shapes the agent away from plausible but wrong work and toward changes that fit the project.
+
 I find thinking about it like this much easier to reason about and shut out all the noise coming from the distracting hype bubble.
 
-In any given use case, or context, we want to effectively narrow the shape of what the LLM and harness produces to get closer to an admissible shape:
+In any given use case, or context, we want to effectively narrow the shape of what the LLM and harness produce to get closer to an admissible shape:
 
 1. LLM
     1. Data
@@ -39,8 +41,8 @@ In any given use case, or context, we want to effectively narrow the shape of wh
     2. Guardrails
     3. Prompting
 
-While we might not have control over an individual LLM it's important to think of it as a harness dependency — if the LLM changes, the harness is effected to varying degrees.
+While we might not have control over an individual LLM, it's important to think of it as a harness dependency — if the LLM changes, the harness is affected to varying degrees.
 
-The trick to maximising value is getting the right amount of context at each layer to produce the desired result in most use cases (contexts) in the least number of iterations (further context)… yes, I'm really trying to drill in the importance of context, including feedback — it's our shaping agent.
+The trick to maximising value is getting the right amount of context at each layer to produce the desired result in most use cases (contexts) in the least number of iterations (further context)… Yes, I'm really trying to drill in the importance of context, including feedback — it's our shaping agent.
 
 Now that we have this shared understanding, the next step is to look at how we can get significantly better results simply by doubling down on existing best practices and adjusting existing environments for agents to flourish.
