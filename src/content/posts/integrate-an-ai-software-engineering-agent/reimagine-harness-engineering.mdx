@@ -1,0 +1,47 @@
+---
+title: 'Reimagine Harness Engineering: Think In Shapes'
+description: "A practical framing for treating LLMs and agent harnesses as shape-producing systems constrained by context, guardrails, and feedback."
+date: 2026-05-13
+tags: []
+image: './banner.png'
+authors: ['enscribe']
+draft: false
+order: 1
+---
+
+## LLMs
+
+I've come to think about AI, especially an LLM, as a shape-producing machine: like a giant ball of play dough continuously pushed through stencils until you end up with a chunk of play dough that satisfies.
+
+In a transformer, roughly speaking, we can start to see how the play dough (tokens) gets reshaped through the various layers (stencils) to produce output (a chunk of play dough):
+
+1. Data is broken down into small units called tokens
+2. Each token is assigned an ID and mapped to an embedding vector
+3. Each token-position is repeatedly transformed through layers into new hidden-state vectors
+4. Those hidden states become increasingly context-shaped
+5. The final hidden states are used to produce probabilities over possible outputs
+
+LLMs can produce a vast number of permutations; the bigger the LLM, the larger the number of shapes it’s capable of producing.
+
+## Harness Engineering
+
+So, building a harness is really about continuing to narrow or reduce the number of shape permutations, a constraint system that carves out an admissible subset from an ambient shape space.
+
+Thinking about it like this makes it easier to reason about the tangible benefits instead of getting distracted by all the hype.
+
+Each layer reduces the number of possible shapes by adding more specific context and constraints:
+
+1. LLM
+    1. Data (training and alignment)
+    2. Guardrails
+2. Harness
+    1. Data (project files and agent-specific guidance)
+    2. Tools
+    3. Prompting
+    4. Guardrails
+
+While we might not have control over an individual LLM, it's important to think of it as a harness dependency — if the LLM changes, the harness is affected to varying degrees.
+
+The trick to maximising value is adjusting the context at each layer, from general to more specific. Done well, the agent can execute effectively across the widest range of use cases within its purview and produce admissible shapes in the fewest iterations.
+
+Now that we have this shared understanding, the next step is to look at how we can get significantly better results simply by doubling down on existing best practices and adjusting existing environments for agents to flourish.
