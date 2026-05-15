@@ -41,38 +41,38 @@ if (FEATURE_TOGGLE.authors) {
 }
 
 export const SOCIAL_LINKS: SocialLink[] = [
-  {
-    href: 'https://www.youtube.com/@nomasprime',
-    label: 'YouTube',
-  },
-  {
-    href: 'https://www.instagram.com/nomasprime/',
-    label: 'Instagram',
-  },
-  {
-    href: 'https://www.tiktok.com/@nomasprime',
-    label: 'TikTok',
-  },
-  {
-    href: 'https://mastodon.social/@nomasprime',
-    label: 'Mastodon',
-  },
-  {
-    href: 'https://www.linkedin.com/in/nomasprime/',
-    label: 'LinkedIn',
-  },
-  {
-    href: 'https://bsky.app/profile/nomasprime.bsky.social',
-    label: 'BlueSky',
-  },
-  {
-    href: 'https://www.x.com/nomasprime',
-    label: 'X',
-  },
-  {
-    href: 'https://github.com/nomasprime',
-    label: 'GitHub',
-  },
+  // {
+  //   href: 'https://www.youtube.com/@nomasprime',
+  //   label: 'YouTube',
+  // },
+  // {
+  //   href: 'https://www.instagram.com/nomasprime/',
+  //   label: 'Instagram',
+  // },
+  // {
+  //   href: 'https://www.tiktok.com/@nomasprime',
+  //   label: 'TikTok',
+  // },
+  // {
+  //   href: 'https://mastodon.social/@nomasprime',
+  //   label: 'Mastodon',
+  // },
+  // {
+  //   href: 'https://www.linkedin.com/in/nomasprime/',
+  //   label: 'LinkedIn',
+  // },
+  // {
+  //   href: 'https://bsky.app/profile/nomasprime.bsky.social',
+  //   label: 'BlueSky',
+  // },
+  // {
+  //   href: 'https://www.x.com/nomasprime',
+  //   label: 'X',
+  // },
+  // {
+  //   href: 'https://github.com/nomasprime',
+  //   label: 'GitHub',
+  // },
   {
     href: '/rss.xml',
     label: 'RSS',
