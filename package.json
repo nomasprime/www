@@ -56,14 +56,14 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",
-    "@types/node": "^25.7.0",
+    "@types/node": "^25.9.0",
     "node-html-parser": "^7.1.0",
     "prettier": "^3.8.3",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-astro-organize-imports": "^0.4.12",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "vitest": "^4.1.6",
-    "wrangler": "^4.90.1"
+    "wrangler": "^4.92.0"
   },
   "prettier": {
     "semi": false,
