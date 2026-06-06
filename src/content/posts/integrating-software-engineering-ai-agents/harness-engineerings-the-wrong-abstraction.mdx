@@ -1,0 +1,76 @@
+---
+title: "Harness Engineering’s The Wrong Abstraction"
+description: ""
+date: 2026-06-01
+tags: []
+image: './harness-engineerings-the-wrong-abstraction-banner.png'
+authors: ['enscribe']
+draft: false
+order: 2
+---
+
+Harness engineering could be mistaken for a new discipline, but the truth is software engineering’s always been about constraining, evaluating, evolving, and producing admissible shapes.
+
+LLMs and AI agents are simply highlighting the importance of existing best practices, that’s what they were trained on after all, and exposing either missing, too implicit, or weakly encoded context.
+
+## Software Engineering Shapes
+
+There are many examples throughout software engineering of constraints that shape our output:
+
+- Languages shape what can be expressed
+- Type systems shape valid programs
+- Frameworks shape architecture
+- Patterns shape recurring solutions
+- Coding standards shape taste
+- Tests shape behaviour
+- Stories shape intent
+- PRs shape change boundaries
+- CI shapes admissibilty
+- Retros shape future practice
+
+The point is, harness engineering isn’t anything new. In fact, if it didn’t highlight the real issue, I’d go so far as to call it completely redundant.
+
+## Why Harness Engineering Feels New
+
+This is simply because LLMs are less forgiving of vague or implicit shapes.
+
+They struggle when context related knowledge is invisible or entirely lost:
+
+- People’s heads
+- Slack threads
+- Past meetings
+- Review comments
+- Inconsistent codebases
+- Underspecified stories
+- Weak tests
+
+Humans can access additional relevant context with their brains, each other’s brains with communication, or otherwise fudge things together. Agents need this context encoded.
+
+## The Real Issue’s Always Been Imprecision
+
+Humans are implicit, computers are explicit, and AI’s somewhere in between.
+
+Also, the human brain generally wants to do as little as possible to conserve energy. Computers don’t have this bias, given the right resources they will compute endlessly.
+
+This means, even with the best intentions, things slip through the cracks:
+
+- A story says what to build, but not enough about acceptable behaviour
+- A style guide describes principles, but examples are missing
+- Review feedback corrects a mistake, but the correction is not turned into a reusable constraint
+- Tests verify happy paths, but not the behaviour that actually matters
+- Architecture is understood socially, but not visible locally in the repo
+
+The truth is, even before LLMs came along, imprecision’s always been a major issue that produces a massive amount of waste.
+
+## So How Can We Fix This?
+
+Well, we don’t need to reinvent the wheel, we just need to be more precise, and maybe hire more people with autism.
+
+The work is to make shapes more explicit:
+
+- Make implicit conventions explicit
+- Move knowledge closer to the code
+- Turn repeated feedback into tests, docs, templates, lint rules, or examples
+- Prefer executable constraints over prose
+- Define work in smaller, more atomic, clearer units
+- Tighten feedback loops
