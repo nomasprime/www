@@ -1,0 +1,82 @@
+---
+title: "Harness Engineering Is The Wrong Abstraction"
+description: "Why harness engineering is less a new discipline than a lens on the shapes software engineering has always used"
+date: 2026-06-01
+tags: []
+image: './harness-engineering-is-the-wrong-abstraction-banner.png'
+authors: ['enscribe']
+draft: false
+order: 2
+---
+
+In the previous post I described harness engineering as a way to narrow an LLM’s shape space. That framing is useful, but it gives the harness too much credit.
+
+Agents make the shaping problem more visible, but they did not create it. Software engineering has always been about constraining, evaluating, evolving, and producing admissible shapes.
+
+LLMs and AI agents are trained on the artefacts of software engineering, so they naturally reflect the strengths and weaknesses of those artefacts while exposing context that is missing, too implicit, or weakly encoded.
+
+## Software Engineering Shapes
+
+Software engineering is full of constraints that shape our output:
+
+- Languages shape what can be expressed
+- Type systems shape valid programs
+- Frameworks shape architecture
+- Patterns shape recurring solutions
+- Coding standards shape taste
+- Tests shape behaviour
+- Stories shape intent
+- PRs shape change boundaries
+- CI shapes admissibility
+- Retros shape future practice
+
+The point is, harness engineering isn’t anything new. In fact, if it didn’t expose the real issue, I’d go so far as to call it completely redundant.
+
+## Why Harness Engineering Feels New
+
+It feels new because LLMs are less forgiving of vague or implicit shapes. They struggle when context-related knowledge is invisible or entirely lost:
+
+- People’s heads
+- Slack threads
+- Past meetings
+- Review comments
+- Inconsistent codebases
+- Underspecified stories
+- Weak tests
+
+Humans can recover some of that context from memory, conversation, or inference. Agents need it encoded.
+
+## The Real Issue’s Always Been Imprecision
+
+Humans are implicit, computers are explicit, and AI’s somewhere in between.
+
+Also, the human brain generally wants to conserve energy. Computers, given enough resources, will compute endlessly.
+
+This means, even with the best intentions, things slip through the cracks:
+
+- A story says what to build, but not enough about acceptable behaviour
+- A style guide describes principles, but examples are missing
+- Review feedback corrects a mistake, but the correction is not turned into a reusable constraint
+- Tests verify happy paths, but not the behaviour that actually matters
+- Architecture is understood socially, but not visible locally in the repo
+
+The truth is, even before LLMs came along, imprecision’s always been a major issue that produces a massive amount of waste.
+
+## So How Can We Fix This?
+
+Well, we don’t need to reinvent the wheel. We need practices that reward precision instead of relying on shared inference, social memory, and unstated taste.
+
+The work is to make shapes more explicit:
+
+- Make implicit conventions explicit
+- Move knowledge closer to the code
+- Turn repeated feedback into tests, docs, templates, lint rules, or examples
+- Prefer executable constraints over prose
+- Define work in smaller, more atomic, clearer units
+- Tighten feedback loops
+
+If harness engineering is the wrong abstraction, then the next practical question is not “how do we build a better harness?” It is “how can we be more precise?”
+
+That means asking what context we’re missing, where we’re being too implicit, which feedback loops we should establish, and how we can reduce corrections or waste.
+
+Harness engineering is useful as a lens, but misleading as the destination. The real work is extending software engineering practice so its shapes are legible to both humans and agents.
