@@ -55,14 +55,14 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.61.1",
-    "@types/node": "^26.0.1",
-    "node-html-parser": "^8.0.4",
+    "@types/node": "^26.1.0",
+    "node-html-parser": "^9.0.0",
     "prettier": "^3.9.4",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-astro-organize-imports": "^0.4.12",
     "prettier-plugin-tailwindcss": "^0.8.0",
-    "vitest": "^4.1.9",
-    "wrangler": "^4.105.0"
+    "vitest": "^4.1.10",
+    "wrangler": "^4.107.0"
   },
   "prettier": {
     "semi": false,
