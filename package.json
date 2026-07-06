@@ -57,7 +57,7 @@
     "@playwright/test": "^1.61.1",
     "@types/node": "^26.0.1",
     "node-html-parser": "^8.0.4",
-    "prettier": "^3.9.3",
+    "prettier": "^3.9.4",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-astro-organize-imports": "^0.4.12",
     "prettier-plugin-tailwindcss": "^0.8.0",
