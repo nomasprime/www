@@ -1,0 +1,266 @@
+---
+title: 'Optimizing Software Engineering For Agentic AI'
+description: ""
+date: 2026-06-01
+tags: []
+image: './optimizing-software-engineering-for-agentic-ai-banner.png'
+authors: ['enscribe']
+draft: false
+order: 2
+---
+
+## . Intro
+
+Humans and agents are dependencies. If we double down on existing best practices we'll get the best of both worlds: humans will be more productive with and without AI; boost when AI's available.
+
+In the previous post, we looked at the agentic AI stack: instructions, context, tools, validation, runtime behaviour, and feedback loops.
+
+Crack that appears is the gap between the generic AI and the local context its working in… into local context like `AGENTS.md`, skills, project rules, examples, scripts, and repo-specific instructions.
+
+But, before we onboard a software engineering agent, there's one major area that's often overlooked: adopting and optimizing relevant existing software engineering practices.
+
+Agentic AI does not require us to invent a new discipline. It rewards the software engineering practices we already know are valuable: clear intent, explicit constraints, fast feedback, small changes, automated validation, and durable team knowledge.
+
+In fact, I'll go on to demonstrate that the current focus on harness engineering is mostly just highlighting weaknesses in current software engineering practices and the concept of harness engineering itself is actually fairly redundant.
+
+Also, doubling down on software engineering practices significantly improves results with and without AI. Ultimately we want to leverage AI significantly but that also makes it a significant dependency. Remember the people on the bus analogy, if AI goes down, we don't want production to stop suddenly.
+
+Does the model reason about what we're doing by default or do we have to specify? The problem with probing the model is it increases our dependency when we move to another model. The problem with increasing the context is it reduces available context for other information.
+
+How's relevant code bought in?
+
+- Instructions say what matters
+- Context shows the current situation
+- Tools define what actions are possible
+- Validation rejects unacceptable outputs
+- The control loop uses feedback to decide what happens next
+
+That is shape narrowing. The agent starts with a large space of possible actions and outputs, then the surrounding system pushes it toward something acceptable.
+
+Documentation starts to become far more prevalent in an agentic world and this is probably the bigggest gap currently in software engineering where documentation can become stale quickly and therefore we lean a lot more on what's living in people's heads and communication with all its downsides.
+
+There's also general organisational knowledge applicable across multiple repos.
+
+Going beyond a simple README.md.
+
+Documentation should be concise and only fill in gaps outside of the codebase which should be as self documenting as possible. A lot of this documentation comes from automated tests and inline comments.
+
+Things outside of this scope include things like practices, architecture, etc.
+
+Agents need a clear target.
+
+That means improving how work is described:
+
+- Smaller issues
+- Clear acceptance criteria
+- Explicit non-goals
+- Examples of expected behaviour
+- Relevant files or entry points
+- Known constraints
+- Definition of done
+
+This is good product and engineering practice anyway. Agents just make the cost of vague intent harder to hide.
+
+Agents need to know the boundaries.
+
+Useful constraints include:
+
+- Coding standards
+- Architectural rules
+- Security requirements
+- Dependency rules
+- Testing expectations
+- Naming conventions
+- API compatibility requirements
+- Review expectations
+
+The key point: constraints should live somewhere durable, close to the work, and usable by both humans and agents.
+
+Agents make the shaping problem more visible, but they did not create it. Software engineering has always been about constraining, evaluating, evolving, and producing acceptable shapes.
+
+Software engineering is full of constraints that shape our output:
+
+- Languages shape what can be expressed
+- Type systems shape valid programs
+- Frameworks shape architecture
+- Patterns shape recurring solutions
+- Coding standards shape taste
+- Tests shape behaviour
+- Stories shape intent
+- PRs shape change boundaries
+- CI shapes admissibility
+- Retros shape future practice
+
+LLMs and AI agents are trained on the artefacts of software engineering, so they naturally reflect the strengths and weaknesses of those artefacts. They also expose context that is missing, too implicit, or weakly encoded.
+
+Harness engineering is useful as a lens, but misleading as the destination. The deeper issue is not that agents need a new kind of engineering discipline. It is that they put new pressure on the precision of the engineering discipline we already have.
+
+Harness engineering feels new because LLMs are less forgiving of vague or implicit shapes. They struggle when important context is invisible or entirely lost:
+
+- People's heads
+- Slack threads
+- Past meetings
+- Review comments
+- Inconsistent codebases
+- Underspecified stories
+- Weak tests
+
+Humans can recover some of that context from memory, conversation, or inference. Agents need it encoded, retrieved, or exposed through tools at the right time.
+
+That does not mean every detail needs to be written down in prose. It means important constraints need somewhere durable to live. Sometimes that is documentation. Often it is tests, types, examples, lint rules, templates, scripts, CI checks, or clearer work boundaries.
+
+Human review still matters, but if the same correction keeps appearing in review, that correction is probably trying to become a reusable shape.
+
+Humans are comfortable with ambiguity. Computers are not. Agents sit awkwardly in the middle: they can infer, but they are still bounded by the context and feedback the system gives them.
+
+This means even well-run teams leak precision:
+
+- A story says what to build, but not enough about acceptable behaviour
+- A style guide describes principles, but examples are missing
+- Review feedback corrects a mistake, but the correction is not turned into a reusable constraint
+- Tests verify happy paths, but not the behaviour that actually matters
+- Architecture is understood socially, but not visible locally in the repo
+
+That imprecision already caused waste before LLMs arrived. Agents just make it harder to ignore because they replay the gaps quickly and visibly.
+
+## Documentation
+
+How can we write checks for docs or at least to keep it updated?
+
+A concise reference without duplication
+
+Important knowledge should not only live in memory, Slack, or old review threads.
+
+Move repeated guidance into:
+
+- `README.md`
+- `CONTRIBUTING.md`
+- `AGENTS.md`
+- Architecture decision records
+- Test examples
+- Code comments where useful
+- Templates
+- Scripts
+- Lint rules
+- CI checks
+
+This reduces repeated explanation and gives agents better context.
+
+### Organisation
+
+### Product
+
+### System
+
+### Skills
+
+This could pull from Organisation for processes and from Repository for implementation details.
+
+### Repository
+
+AGENTS.md is README.md? It's a TOC. There's a docs directory?
+
+## Defining Work
+
+These are instructions of what changes to make on the repository.
+
+Since the dawn of agile I've championed the smallest atomic work items and defining them with tests, agentic AI confirms those ideas.
+
+Small work items have many advantages:
+
+- Faster feedback
+- Easier to reason about (humans and context windows)
+
+Tests help with:
+
+- TODO
+
+Clear goal
+Acceptance criteria
+Non-goals
+Relevant files or areas
+Constraints
+Expected tests/checks
+Definition of done
+Inputs and outputs
+Edge cases
+Failure cases
+UX/API expectations
+Compatibility requirements
+Security/privacy constraints
+
+## Validation
+
+## Implementation
+
+- Languages
+  - Training data
+  - Typed languages
+- Coding standards
+- Snippets
+- Generators
+- Code completion and other IDE features?
+
+- Generative AI, the ultimate shape factory, is layered on top but the existing examples available pre-AI act as intermediary guardrails (guidance), instead of generating from scratch, AI can use our existing generators
+
+## Review
+
+ADRs vs compaction
+
+Agents work better when the unit of work is bounded.
+
+Good practice:
+
+- One clear task per issue
+- Small PRs
+- Narrow diffs
+- Incremental commits
+- Avoid mixing refactors with behaviour changes
+- Keep generated files separate where possible
+
+This also makes human review easier and reduces risk.
+
+The control loop is only as good as the feedback it receives.
+
+Agents benefit from fast, reliable commands:
+
+- Type checks
+- Unit tests
+- Integration tests
+- Linters
+- Formatters
+- Build checks
+- Smoke tests
+
+If the agent can run a command and trust the result, it can iterate more effectively.
+
+Validation should not depend entirely on human judgment.
+
+Strengthen:
+
+- Tests
+- Type systems
+- Static analysis
+- Schema validation
+- CI gates
+- Required checks
+- Security scanning where relevant
+
+Human review still matters, but humans should not be the first line of defence for every repeatable concern.
+
+Repeated review comments are a signal.
+
+If humans keep saying the same thing, encode it:
+
+- Add a test
+- Add a lint rule
+- Add an example
+- Update docs
+- Create a template
+- Add an agent instruction
+- Improve the issue template
+
+This turns correction into infrastructure.
+
+## Summary
+

@@ -30,6 +30,8 @@ import { render } from 'astro:content'
 import { FEATURE_TOGGLE } from '../../consts'
 import EmailSignUp from '@/components/EmailSignup.astro'
 
+export const prerender = true
+
 export async function getStaticPaths() {
   const posts = await getAllPostsAndSubposts()
   return posts.map((post) => ({
