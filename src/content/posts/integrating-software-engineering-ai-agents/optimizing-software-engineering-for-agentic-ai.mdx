@@ -15,65 +15,74 @@ For better or worse, we love giving things new names. One of the latest terms be
 
 LLMs and AI agents are trained on the artefacts of software engineering, so they naturally reflect the strengths and weaknesses of those artefacts. They also reveal how your team builds software: the assumptions, shortcuts, inconsistencies, and missing context that usually stay implicit. This is the gap we need to bridge: between generic AI agents and the contexts they're used in.
 
-So, if harness engineering's not the answer, what is?
+OK, if harness engineering's not the answer, what is?
 
-Going all in on good ol' software engineering.
+Well, going all in on good ol' software engineering.
 
 So, before we start onboarding an agent, let's look at how teams can adopt existing software engineering practices and build a strong foundation for the adoption of agentic AI.
 
 ## Documentation
 
-Implicit -> explicit.
+Documentation is probably the biggest gap in software engineering.
 
-Documentation starts to become far more prevalent in an agentic world and this is probably the bigggest gap currently in software engineering where documentation can become stale quickly and therefore we lean a lot more on what's living in people's heads and communication with all its downsides.
+Code has evolved over the years, but documentation's somewhat stagnated. Having to write and maintain documentation's always been an afterthought for a few reasons, including:
 
-There's also general organisational knowledge applicable across multiple repos.
+- Self-documenting code
+- High maintenance costs
+- Implicit knowledge is less effort
 
-Going beyond a simple README.md.
+And, yes, self-documenting code's fantastic. You can create your work items and encode the desired results in tests with great benefits, such as:
 
-Documentation should be concise and only fill in gaps outside of the codebase which should be as self documenting as possible. A lot of this documentation comes from automated tests and inline comments.
+- Tighter requirements
+- Validated implementation
+- Better code
+- Fewer bugs
+- Less regression
+- Greater confidence
+- Higher overall productivity
+- Living documentation that is more tightly coupled to the implementation
 
-Things outside of this scope include things like practices, architecture, etc.
+The last two items in the list, maintenance costs and implicit knowledge (stored in people's brains), are closely related.
 
+The arguments for and against B/TDD are similar, and I'd argue similarly for documentation: it's more expensive not to — especially in the age of agentic AI.
 
-How can we write checks for docs or at least to keep it updated?
+Both look expensive up front, but both reduce ambiguity, rework, regression, and repeated explanation later.
 
-A concise reference without duplication
+Implicit knowledge means it lives in people's brains:
 
-Important knowledge should not only live in memory, Slack, or old review threads.
+- Memory's notoriously fallible
+- Little to no redundancy
+- Increases miscommunication
 
-Move repeated guidance into:
+When you start factoring in these issues, increasing explicitness starts making much more sense. Once you factor in AI, the tradeoff becomes even clearer:
 
-- `README.md`
-- `CONTRIBUTING.md`
-- `AGENTS.md`
-- Architecture decision records
-- Test examples
-- Code comments where useful
-- Templates
-- Scripts
-- Lint rules
-- CI checks
+- Reduces the cost of creating and maintaining to almost zero
+- Performs much better with explicit context
 
-This reduces repeated explanation and gives agents better context.
+### Documentation As Code (DaC)
 
-Humans can recover some of that context from memory, conversation, or inference. Agents need it encoded, retrieved, or exposed through tools at the right time.
+Similar to infrastructure as code (IaC)[^1], we should be managing documentation more like code:
 
-That does not mean every detail needs to be written down in prose. It means important constraints need somewhere durable to live. Sometimes that is documentation. Often it is tests, types, examples, lint rules, templates, scripts, CI checks, or clearer work boundaries.
+- Version along with any relevant changes
+- Review as part of the same change process
+- Test links, examples, commands, diagrams, references, etc
+- Generate from source where possible
+- DRY by avoiding duplication of code, code comments, tests, schemas, and other docs
+- Structure for navigation and discovery, eg, `README.md` and docs directory
+- Template repeated document types
+- Assign ownership, eg, `CODEOWNERS`
 
-### Organisation
+### Increasing Explicitness
 
-### Product
+When someone joins a project, they bring all their experience with them, but they still need to learn how the organisation, department, role, products, related codebases and architectures, etc, work.
 
-### System
+Some of that comes through onboarding. Some comes through reading code, tests, docs, and previous decisions. Too much of it still comes through memory, chat threads, repeated review comments, and discovering information from the right people at the right time.
 
-### Skills
+That is expensive, even before AI enters the picture. It slows onboarding, creates inconsistent decisions, increases miscommunication, and makes teams dependent on whichever people happen to hold the context.
 
-This could pull from Organisation for processes and from Repository for implementation details.
+The improvement is to make important context explicit and accessible from the working environment. Not every detail needs to live in the repository, but the repository should make it clear where the relevant context lives.
 
-### Repository
-
-AGENTS.md is README.md? It's a TOC. There's a docs directory?
+This lays a better foundation, with or without AI.
 
 ## Defining Work
 
@@ -114,19 +123,7 @@ Security/privacy constraints
 
 ## Validation
 
-## Implementation
-
-- Languages
-  - Training data
-  - Typed languages
-- Coding standards
-- Snippets
-- Generators
-- Code completion and other IDE features?
-
-- Generative AI, the ultimate shape factory, is layered on top but the existing examples available pre-AI act as intermediary guardrails (guidance), instead of generating from scratch, AI can use our existing generators
-
-## Review
+Actually happens throughout.
 
 ADRs vs compaction
 
@@ -187,10 +184,28 @@ This turns correction into infrastructure.
 
 Human review still matters, but if the same correction keeps appearing in review, that correction is probably trying to become a reusable shape.
 
+## Implementation
+
+- Languages
+  - Training data
+  - Typed languages
+- Coding standards
+- Snippets
+- Generators
+- Code completion and other IDE features?
+
+- Generative AI, the ultimate shape factory, is layered on top but the existing examples available pre-AI act as intermediary guardrails (guidance), instead of generating from scratch, AI can use our existing generators
+
 ## Summary
+
+Implicit -> explicit.
 
 Humans and agents are dependencies. If we double down on existing best practices we'll get the best of both worlds: humans will be more productive with and without AI; boost when AI's available. Resilience if AI's unavailable.
 
 Agentic AI does not require us to invent a new discipline. It rewards the software engineering practices we already know are valuable: clear intent, explicit constraints, fast feedback, small changes, automated validation, and durable team knowledge.
 
 Also, doubling down on software engineering practices significantly improves results with and without AI. Ultimately we want to leverage AI significantly but that also makes it a significant dependency. Remember the people on the bus analogy, if AI goes down, we don't want production to stop suddenly.
+
+---
+
+[^1]: ‘Infrastructure as code’, Wikipedia, 29 June 2026, https://en.wikipedia.org/w/index.php?title=Infrastructure_as_code&oldid=1361737705.
