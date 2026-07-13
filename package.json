@@ -27,7 +27,7 @@
     "@astrojs/sitemap": "^3.7.3",
     "@expressive-code/plugin-collapsible-sections": "^0.44.0",
     "@expressive-code/plugin-line-numbers": "^0.44.0",
-    "@iconify-json/lucide": "^1.2.116",
+    "@iconify-json/lucide": "^1.2.117",
     "@iconify-json/ri": "^1.2.10",
     "@tailwindcss/vite": "^4.3.2",
     "@types/react": "19.2.17",
