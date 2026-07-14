@@ -1,0 +1,237 @@
+---
+title: 'Optimizing Software Engineering With Agentic AI'
+description: ""
+date: 2026-06-01
+tags: []
+image: './banner.png'
+authors: ['enscribe']
+draft: true
+order: 2
+---
+
+In the previous post, we looked at the agentic AI stack: instructions, context, tools, validation, runtime behaviour, and feedback loops.
+
+
+
+
+So, before we start onboarding an agent, let's look at how teams can adopt existing software engineering practices and build a strong foundation for the adoption of agentic AI.
+
+## Documentation
+
+Documentation is probably the biggest gap in software engineering.
+
+Code has evolved over the years, but documentation's somewhat stagnated. Having to write and maintain documentation's always been an afterthought for a few reasons, including:
+
+- Self-documenting code
+- High maintenance costs
+- Implicit knowledge is less effort
+
+And, yes, self-documenting code's fantastic. You can create your work items and encode the desired results in tests with great benefits, such as:
+
+- Tighter requirements
+- Validated implementation
+- Better code
+- Fewer bugs
+- Less regression
+- Greater confidence
+- Higher overall productivity
+- Living documentation that is more tightly coupled to the implementation
+
+The last two items in the list, maintenance costs and implicit knowledge (stored in people's brains), are closely related.
+
+The arguments for and against B/TDD are similar, and I'd argue similarly for documentation: it's more expensive not to — especially in the age of agentic AI.
+
+Both look expensive up front, but both reduce ambiguity, rework, regression, and repeated explanation later.
+
+Implicit knowledge means it lives in people's brains:
+
+- Memory's notoriously fallible
+- Little to no redundancy
+- Increases miscommunication
+
+When you start factoring in these issues, increasing explicitness starts making much more sense. Once you factor in AI, the tradeoff becomes even clearer:
+
+- Reduces the cost of creating and maintaining to almost zero
+- Performs much better with explicit context
+
+Good starting docs:
+
+- [`README`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes) file
+- `/docs` directory
+- [`CONTRIBUTING`] file
+- [`CODEOWNERS`](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners) file
+
+### Documentation As Code (DaC)
+
+Similar to infrastructure as code (IaC)[^1], we should be managing documentation more like code:
+
+- Version along with any relevant changes
+- Review as part of the same change process
+- Test links, examples, commands, diagrams, references, etc
+- Generate from source where possible
+- DRY by avoiding duplication of code, code comments, tests, schemas, and other docs
+- Structure for navigation and discovery, eg, `README.md` and docs directory
+- Template repeated document types
+- Assign ownership, eg, `CODEOWNERS`
+
+Started removing DaC but this is exactly what I want:
+
+- Pulumi, coded infra that lives within the repo
+- UML instead of prose and lends to programming with tools like VP UML and coding agents, eg LangGraph etc
+
+### Increasing Explicitness
+
+When someone joins a project, they bring all their experience with them, but they still need to learn how the organisation, department, role, products, related codebases and architectures, etc, work.
+
+Some of that comes through onboarding. Some comes through reading code, tests, docs, and previous decisions. Too much of it still comes through memory, chat threads, repeated review comments, and discovering information from the right people at the right time.
+
+That is expensive, even before AI enters the picture. It slows onboarding, creates inconsistent decisions, increases miscommunication, and makes teams dependent on whichever people happen to hold the context.
+
+The improvement is to make important context explicit and accessible from the working environment. Not every detail needs to live in the repository, but the repository should make it clear where the relevant context lives.
+
+This lays a better foundation, with or without AI.
+
+- Organisation
+- Product
+- System
+- Skills
+
+## Defining Work
+
+These are instructions of what changes to make on the repository.
+
+Since the dawn of agile I've championed the smallest atomic work items and defining them with tests, agentic AI confirms those ideas.
+
+Small work items have many advantages:
+
+- Faster feedback
+- Easier to reason about (humans and context windows)
+
+Tests help with:
+
+- TODO
+
+Clear goal
+Acceptance criteria
+Non-goals
+Relevant files or areas
+Constraints
+Expected tests/checks
+Definition of done
+Inputs and outputs
+Edge cases
+Failure cases
+UX/API expectations
+Compatibility requirements
+Security/privacy constraints
+
+- Smaller issues
+- Clear acceptance criteria
+- Explicit non-goals
+- Examples of expected behaviour
+- Relevant files or entry points
+- Known constraints
+- Definition of done
+
+## Validation
+
+Actually happens throughout.
+
+ADRs vs compaction
+
+Agents work better when the unit of work is bounded.
+
+Good practice:
+
+- One clear task per issue
+- Small PRs
+- Narrow diffs
+- Incremental commits
+- Avoid mixing refactors with behaviour changes
+- Keep generated files separate where possible
+
+This also makes human review easier and reduces risk.
+
+The control loop is only as good as the feedback it receives.
+
+Agents benefit from fast, reliable commands:
+
+- Type checks
+- Unit tests
+- Integration tests
+- Linters
+- Formatters
+- Build checks
+- Smoke tests
+
+If the agent can run a command and trust the result, it can iterate more effectively.
+
+Validation should not depend entirely on human judgment.
+
+Strengthen:
+
+- Tests
+- Type systems
+- Static analysis
+- Schema validation
+- CI gates
+- Required checks
+- Security scanning where relevant
+
+Human review still matters, but humans should not be the first line of defence for every repeatable concern.
+
+Repeated review comments are a signal.
+
+If humans keep saying the same thing, encode it:
+
+- Add a test
+- Add a lint rule
+- Add an example
+- Update docs
+- Create a template
+- Add an agent instruction
+- Improve the issue template
+
+This turns correction into infrastructure.
+
+Human review still matters, but if the same correction keeps appearing in review, that correction is probably trying to become a reusable shape.
+
+## Implementation
+
+- Languages
+  - Training data
+  - Typed languages
+- Coding standards
+- Snippets
+- Generators
+- Code completion and other IDE features?
+
+- Generative AI, the ultimate shape factory, is layered on top but the existing examples available pre-AI act as intermediary guardrails (guidance), instead of generating from scratch, AI can use our existing generators
+
+## Summary
+
+Implicit -> explicit.
+
+Humans and agents are dependencies. If we double down on existing best practices we'll get the best of both worlds: humans will be more productive with and without AI; boost when AI's available. Resilience if AI's unavailable.
+
+Agentic AI does not require us to invent a new discipline. It rewards the software engineering practices we already know are valuable: clear intent, explicit constraints, fast feedback, small changes, automated validation, and durable team knowledge.
+
+Also, doubling down on software engineering practices significantly improves results with and without AI. Ultimately we want to leverage AI significantly but that also makes it a significant dependency. Remember the people on the bus analogy, if AI goes down, we don't want production to stop suddenly.
+
+---
+
+Unlike previous assistive technologies, like code completion, snippets, and generators, which are fairly rigid and limited in their capabilities, an AI agent is far more dynamic, context-aware, and capable of transforming human intent into deliverable software. It can:
+
+- Interpret human intent
+- Inspect codebases
+- Plan changes
+- Write code
+- Run tests
+- Debug failures
+- Create pull requests
+
+And much more…
+
+---
+
+[^1]: ‘Infrastructure as code’, Wikipedia, 29 June 2026, https://en.wikipedia.org/w/index.php?title=Infrastructure_as_code&oldid=1361737705.
