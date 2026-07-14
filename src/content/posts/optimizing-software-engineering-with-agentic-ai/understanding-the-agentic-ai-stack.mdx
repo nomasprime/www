@@ -1,0 +1,223 @@
+---
+title: 'Understanding The Agentic AI Stack'
+description: 'A practical introduction to the runtime, instructions, context, tools, control loop, validation, LLM adapter, and model behind software engineering agents'
+date: 2026-05-14
+tags: []
+image: './understanding-the-agentic-ai-stack-banner.png'
+authors: ['enscribe']
+draft: false
+order: 1
+---
+
+Most conversations about AI agents start with the model. Which one is smarter? Which one is faster? Which one writes better code?
+
+Those questions matter, but they miss where a lot of agent quality actually comes from. A useful software engineering agent is not just an LLM. It is a system in which a runtime assembles instructions and context, exposes tools, runs a control loop, applies validation, and communicates with the model through an LLM adapter.
+
+Before we can integrate agents well, we need to understand that stack.
+
+## What Is AI?
+
+There’s a lot of hype and misunderstanding around AI. Sure, the technologies are impressive, but productive people aren’t interested in hype; they want to understand how to leverage technology to increase their effectiveness.
+
+Let's start with a practical definition of AI:
+
+AI is the ability of computational systems to perform tasks usually associated with human intelligence, such as learning, reasoning, problem-solving, perception, decision-making, and taking actions toward defined goals.[^1]
+
+## When Does AI Become Agentic?
+
+This is similar to asking when a process becomes automated. The key difference is control flow. In traditional automation, the programmer defines which step runs next. In agentic AI, the runtime supplies the current state to the model, and the model helps decide what should happen next.
+
+That does not mean the whole system is implicit. The agentic stack is a hybrid: the runtime combines explicit instructions and context, exposes tools, enforces permissions, and coordinates validation around an implicit reasoning core.
+
+So the answer is similar: an AI system becomes agentic when it can pursue a goal through a control loop. The runtime presents the current state to the model, the model proposes an action, and the runtime executes an allowed action before adding the result to the context. The system can then adjust what it does next without every step being explicitly predetermined. From that point onwards, agency exists on a continuum.
+
+For example, [ChatGPT](https://help.openai.com/en/articles/9260256-chatgpt-capabilities-overview) is a general-purpose AI assistant with agentic capabilities, such as searching the web or carrying out multi-step tasks using tools.
+
+[Codex](https://openai.com/codex/) is a specialized coding agent. Its primary purpose is to pursue software engineering goals by planning, using development tools, observing the results, and iterating until the task is complete.
+
+Both can behave agentically. They differ in purpose and specialization, as well as their degree of agency.
+
+So, it’s often more useful to think in terms of degrees of agency rather than whether something “is” or “isn’t” an agent.
+
+## What Does An Agentic AI Stack Consist Of?
+
+### Runtime
+
+The runtime is the execution layer that orchestrates the other components. It assembles instructions and context, exposes allowed tools, runs the control loop, coordinates validation, and communicates with the model through an LLM adapter. As the loop progresses, the runtime executes approved actions and maintains state between iterations until the task is complete, blocked, or requires input.
+
+### Instructions
+
+These shape the agent's goals, constraints, and behaviour and come from multiple sources, eg:
+
+- System prompt
+- Developer prompt
+- User prompt
+- AGENTS.md
+- Skills
+- Project rules
+- Company policies
+- Style guides
+- Safety policies
+
+For a coding agent, instructions might say:
+
+- Run tests before finishing
+- Use pnpm, not npm
+- Do not edit generated files
+- Follow this repo’s naming conventions
+- Ask before making destructive changes
+
+### Context
+
+Context is the situational knowledge available to the model as it follows the instructions, eg:
+
+- Conversation history
+- The user’s latest message
+- Relevant files
+- Search results
+- Tool outputs
+- Code snippets
+- Error logs
+- Repository structure
+- Retrieved documentation
+- Memory
+
+Instructions shape behaviour, context supplies situational knowledge.
+
+A lot of AI application quality comes from choosing the right context. Too little context and the model guesses. Too much irrelevant context and the model gets distracted.
+
+### Tools
+
+These are external capabilities exposed through the agent runtime. They're integrations that allow the agent to interact with other systems to get things done, eg:
+
+- Read a file
+- Write a file
+- Search the web
+- Run Python
+- Run terminal commands
+- Query a database
+- Call an API
+- Send an email
+- Read a calendar
+- Generate an image
+- Run tests
+- Use Git
+- Compile code
+
+The runtime decides which tools are exposed and whether a requested call is allowed. The model decides when to request an available tool.
+
+For example, the model infers it should run the tests, and the runtime uses the terminal tool to run the relevant test command.
+
+### Control Loop
+
+The control loop is what lets the system move from a single model response to goal-directed behaviour. It gives the agent a repeated cycle for choosing an action, observing the result, and deciding whether to continue, stop, or ask for help:
+
+1. The runtime calls the model with the current instructions, context, and available tools
+2. The model proposes an action or response
+3. The runtime either returns the response or executes an allowed action and adds the result to the context
+4. After an action, the cycle repeats unless the task is finished, blocked, or waiting for input
+
+For example, when told to fix failing tests:
+
+1. Inspect the repository and its instructions
+2. Inspect the failing tests and relevant code
+3. Identify the likely cause
+4. Edit the file
+5. Run the tests
+6. Observe the remaining failure
+7. Revise the change
+8. Run the tests again
+9. Summarise the changes
+
+### Validation
+
+Validation provides evidence about whether an action or output meets its requirements. It can happen before, during, or after an action, and its result becomes feedback for the control loop.
+
+Some validation can be enforced deterministically by the runtime or through tools:
+
+- Does the output match the required JSON schema?
+- Does a referenced file path exist?
+- Did the tests pass?
+- Did the code compile?
+- Did the linter and type checker pass?
+
+Other validation is advisory and requires judgment. A model or reviewer might assess whether an answer is complete, a diff addresses the goal, or an implementation follows the intended design.
+
+Runtime guardrails are related, but they answer a different question: whether an action is allowed rather than whether its result is correct. For example:
+
+- Is this tool call permitted?
+- Is user approval required before continuing?
+- Would this perform a destructive action?
+- Does this violate a company policy?
+
+Depending on the result, the runtime can return feedback to the model, block the action, require approval, or stop the task.
+
+### LLM Adapter
+
+The model adapter is the translation layer between the runtime and a specific LLM provider/model.
+
+Different models have different APIs, formats, strengths, and quirks.
+
+The adapter handles things like:
+
+- Message formatting
+- Tool-call schema formatting
+- Token limits
+- Streaming responses
+- Retry behaviour
+- Model-specific parameters
+- JSON mode
+- Function calling
+- Vision inputs
+- File inputs
+- Error handling
+
+For example, your runtime might have a generic internal request:
+
+Ask model:
+- Here are the instructions.
+- Here is the context.
+- These tools are available.
+- Return either an answer or a tool call.
+
+The adapter converts that into the exact format required by:
+
+- OpenAI
+- Anthropic
+- Google
+- local Llama model
+- some future model
+
+This is what makes model swapping possible, though not always painless.
+
+### LLM
+
+The LLM is the language model itself.
+
+It is the part that takes input and generates output.
+
+It can:
+
+- Interpret language
+- Generate text
+- Write code
+- Summarise
+- Classify
+- Plan
+- Infer intent
+- Suggest tool calls
+- Produce structured data
+
+## Summary
+
+The agentic AI stack gives us a practical way to reason about agent quality. It makes agentic AI manageable by putting explicit engineering scaffolding around an implicit reasoning core.
+
+If an agent produces poor results, the model might be the problem, but it is not the only place to look. The issue might be unclear instructions, missing context, weak tools, loose validation, a brittle runtime, or a control loop that does not surface the right information at the right time.
+
+That is why integrating agentic AI is not just model selection. It is systems design. Agent platform engineers might shape every layer of the stack, but most teams adopting agents will consume the runtime, adapter, and model rather than build them. Their main opportunity is to improve the existing engineering environment that supplies the agent with instructions, context, tools, and validation.
+
+That is where this series turns next: how to make engineering knowledge explicit, define work clearly, guide implementation, and provide feedback that helps humans and agents produce better software.
+
+---
+
+[^1]: OECD, ‘Explanatory memorandum on the updated OECD definition of an AI system’, 5 March 2024, https://www.oecd.org/en/publications/explanatory-memorandum-on-the-updated-oecd-definition-of-an-ai-system_623da898-en.html.
