@@ -1,0 +1,29 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "^(apply_patch|Edit|Write)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$(git rev-parse --show-toplevel)/.codex/hooks/context-gap-audit.mjs\"",
+            "timeout": 10,
+            "statusMessage": "Tracking repository edits"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$(git rev-parse --show-toplevel)/.codex/hooks/context-gap-audit.mjs\"",
+            "timeout": 10,
+            "statusMessage": "Auditing engineering friction"
+          }
+        ]
+      }
+    ]
+  }
+}

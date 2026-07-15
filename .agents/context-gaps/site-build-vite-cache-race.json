@@ -1,0 +1,36 @@
+{
+  "$schema": "./context-gap.schema.json",
+  "id": "site-build-vite-cache-race",
+  "status": "proposed",
+  "category": "validation",
+  "scope": "repository",
+  "summary": "The documented production build command is not reliable when another local Vite process is active.",
+  "firstObserved": "2026-07-14",
+  "lastObserved": "2026-07-14",
+  "occurrences": 3,
+  "impact": "high",
+  "confidence": "high",
+  "evidence": [
+    {
+      "date": "2026-07-14",
+      "task": "Implement the context-gap feedback loop",
+      "observation": "Production builds repeatedly failed because optimized Vite dependency chunks disappeared; the CI build succeeded only after the generated Vite cache was cleared."
+    },
+    {
+      "date": "2026-07-14",
+      "task": "Update the agentic AI series index",
+      "observation": "The documented CI=true build command failed with the same missing optimized dependency chunk while another local process was active."
+    },
+    {
+      "date": "2026-07-14",
+      "task": "Clarify the agentic stack runtime relationship",
+      "observation": "The production build again failed because an optimized Vite dependency chunk disappeared, including when rerun outside the sandbox."
+    }
+  ],
+  "recommendation": {
+    "target": "Site validation tooling and repository guidance",
+    "change": "Identify the shared Vite dependency-cache conflict and provide a deterministic production-validation command that does not race with an active local process, then replace the current unsupported claim in AGENTS.md.",
+    "verification": "Run the production build repeatedly while the normal local development process is active without clearing shared caches manually or encountering missing optimized dependency chunks."
+  },
+  "resolution": null
+}

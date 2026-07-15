@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Audit Context Gaps'
+  short_description: 'Turn agent friction into durable fixes'
+  default_prompt: 'Use $audit-context-gaps to review this task for evidence-backed engineering context gaps.'

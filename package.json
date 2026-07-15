@@ -8,6 +8,8 @@
     "build": "wrangler types && astro check && astro build",
     "preview": "wrangler types && astro preview",
     "astro": "astro",
+    "context-gaps": "node .agents/skills/audit-context-gaps/scripts/context-gaps.mjs list",
+    "context-gaps:validate": "node .agents/skills/audit-context-gaps/scripts/context-gaps.mjs validate",
     "prettier": "prettier . --write --ignore-path .gitignore --ignore-path .prettierignore",
     "prettier:github": "prettier . --write '!.github/**' --ignore-path .gitignore --ignore-path .prettierignore",
     "prettier:check": "prettier . --check --ignore-path .gitignore --ignore-path .prettierignore",

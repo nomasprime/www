@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "context-gap.schema.json",
+  "title": "Engineering context gap",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "id",
+    "status",
+    "category",
+    "scope",
+    "summary",
+    "firstObserved",
+    "lastObserved",
+    "occurrences",
+    "impact",
+    "confidence",
+    "evidence",
+    "recommendation",
+    "resolution"
+  ],
+  "properties": {
+    "$schema": { "const": "./context-gap.schema.json" },
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "status": {
+      "enum": ["proposed", "accepted", "resolved", "rejected"]
+    },
+    "category": {
+      "enum": [
+        "task-definition",
+        "missing-knowledge",
+        "discoverability",
+        "contradiction",
+        "workflow",
+        "affordance",
+        "tooling",
+        "validation",
+        "human-decision",
+        "model-capability"
+      ]
+    },
+    "scope": { "type": "string", "minLength": 1 },
+    "summary": { "type": "string", "minLength": 1 },
+    "firstObserved": { "type": "string", "format": "date" },
+    "lastObserved": { "type": "string", "format": "date" },
+    "occurrences": { "type": "integer", "minimum": 1 },
+    "impact": { "enum": ["low", "medium", "high", "critical"] },
+    "confidence": { "enum": ["low", "medium", "high"] },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["date", "task", "observation"],
+        "properties": {
+          "date": { "type": "string", "format": "date" },
+          "task": { "type": "string", "minLength": 1 },
+          "observation": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "recommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target", "change", "verification"],
+      "properties": {
+        "target": { "type": "string", "minLength": 1 },
+        "change": { "type": "string", "minLength": 1 },
+        "verification": { "type": "string", "minLength": 1 }
+      }
+    },
+    "resolution": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["date", "change", "verification"],
+      "properties": {
+        "date": { "type": "string", "format": "date" },
+        "change": { "type": "string", "minLength": 1 },
+        "verification": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

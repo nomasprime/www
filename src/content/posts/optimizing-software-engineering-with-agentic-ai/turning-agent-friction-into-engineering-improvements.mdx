@@ -1,0 +1,222 @@
+---
+title: 'Turning Agent Friction Into Engineering Improvements'
+description: 'How agents can identify engineering context gaps, recommend durable fixes, and help improve the repositories they depend on'
+date: 2026-05-16
+tags: []
+image: './banner.png'
+authors: ['enscribe']
+draft: false
+order: 3
+---
+
+In the previous post, we looked at the control loop inside an agent: it acts, observes the result, and adjusts what it does next.
+
+But there’s another loop around the agent.
+
+When we give an agent a task, it works until it succeeds, needs clarification, or gets something wrong. We correct it, it adjusts, and eventually we get an acceptable result.
+
+If those corrections disappear with the conversation, the task might be complete, but the engineering system hasn’t learned anything. Another engineer or agent can encounter exactly the same problem tomorrow.
+
+We shouldn’t need a human to maintain a spreadsheet of everything an agent struggled with either. The agent has observed the task, repository, tools, validation, and corrections. It should help diagnose the environment it depends on and recommend how to improve it.
+
+So, the outer loop looks like this:
+
+1. Perform work
+2. Observe friction
+3. Diagnose the likely cause
+4. Fix or recommend the narrowest durable improvement
+5. Validate the improvement
+6. Apply the improved environment to future work
+
+This is continuous improvement, not a new AI-specific discipline. The difference is that an agent can participate in the process instead of only producing the software change.
+
+## Every Task Can Produce Two Outputs
+
+The primary output is whatever we asked for: a fix, feature, refactor, review, or investigation.
+
+The secondary output is evidence about the engineering environment:
+
+- An assumption the agent couldn’t verify
+- Information that only became available through conversation
+- Relevant guidance that was difficult to find
+- Contradictory documentation or instructions
+- A procedure it had to reconstruct manually
+- A missing tool, permission, fixture, or command
+- A concern that could only be checked by a human
+- Slow, unreliable, or missing validation
+
+These observations don’t prove the repository is deficient. Exploration is a normal part of engineering. A task might be genuinely novel, a product decision might not have been made yet, or the agent might simply be incapable of doing the work reliably.
+
+The agent’s job is to raise evidence-backed recommendations, not convert every mistake into another instruction.
+
+## A Working Implementation
+
+I’ve implemented this series’ first version of the loop in its own repository. It consists of four small pieces:
+
+```text
+Repository edit
+      ↓
+Stop hook requests an audit
+      ↓
+Agent classifies observed friction
+      ↓
+Ignore | fix now | record proposal | escalate
+      ↓
+Validate and review the resulting change
+```
+
+The implementation uses Codex terminology, but the pattern is portable to any agent runtime that can run a completion hook or completion phase.
+
+### Trigger The Audit Automatically
+
+Telling people to remember to ask an agent for a retrospective just creates another manual process. The audit needs a reliable trigger.
+
+Codex supports [lifecycle hooks](https://developers.openai.com/codex/config-advanced#hooks), including a `Stop` hook that can continue a turn before the agent finishes. This repository has a `PostToolUse` hook that marks a turn when the agent edits a file and a `Stop` hook that continues that edited turn once with the audit request.
+
+The hook itself is deterministic. It does not try to diagnose the task from keywords or parse an unstable conversation transcript. It only establishes that an edit occurred and asks the agent to perform the reasoning step:
+
+```json
+{
+  "decision": "block",
+  "reason": "Use $audit-context-gaps to audit this edited turn before finishing."
+}
+```
+
+`block` is slightly confusing here: for a `Stop` hook, it tells Codex to continue with the reason as a new prompt. Codex also provides a flag that prevents the hook from continuing the same turn indefinitely.
+
+Repository hooks have to be reviewed and trusted before they run. That’s a useful boundary: adding a hook is an executable engineering change, not hidden prompt text.
+
+### Give The Agent A Diagnostic Workflow
+
+The continuation explicitly invokes a repository [skill](https://developers.openai.com/codex/skills) called `audit-context-gaps`.
+
+The skill asks the agent to inspect evidence from the task and classify the primary cause:
+
+| Category | What it means |
+| --- | --- |
+| Task definition | Unique intent, scope, acceptance criteria, or non-goals were absent |
+| Missing knowledge | Stable domain or repository knowledge was unavailable |
+| Discoverability | The knowledge existed but was difficult to locate |
+| Contradiction | Relevant sources or instructions disagreed |
+| Workflow | A repeatable procedure was missing or unclear |
+| Affordance | Types, examples, templates, or structure didn’t guide the implementation |
+| Tooling | A necessary command, integration, permission, or data source was unavailable |
+| Validation | A repeatable concern lacked fast, trustworthy verification |
+| Human decision | New product, design, or architectural judgment was required |
+| Model capability | The environment was adequate, but the agent still couldn’t perform reliably |
+
+This matters because “add it to `AGENTS.md`” is only one possible response. More context cannot repair an unavailable tool, and another instruction is weaker than a test for something that can be checked deterministically.
+
+### Choose The Narrowest Safe Response
+
+After diagnosing the observation, the agent chooses one of four dispositions:
+
+1. **Ignore it** when it is task-specific, immaterial, or weakly evidenced.
+2. **Fix it now** when the source of truth is clear, the change is narrow and in scope, and it can be validated with the current work.
+3. **Record a proposal** when the issue is material but broader, uncertain, or needs recurrence before it should be promoted.
+4. **Escalate it** when it involves security, compliance, destructive actions, or a consequential human decision.
+
+The destination depends on the cause:
+
+- One-off intent belongs in the work item or prompt
+- Stable shared knowledge belongs in authoritative documentation
+- Concise repository behaviour or routing can belong in the nearest `AGENTS.md`
+- A repeated procedure can become a skill, template, script, or tool
+- An enforceable invariant should become a type, test, lint rule, schema, CI check, or hook
+- Volatile information should be retrieved from its live source
+- A genuine human decision should remain a human decision
+
+The agent can make a narrow improvement as part of the current change, but it shouldn’t silently expand the task to redesign the engineering system. When the improvement is broader, a recommendation is the output.
+
+### Persist Evidence, Not A Transcript
+
+A single observation can be useful without justifying a permanent rule. To establish recurrence without relying on human memory, material proposals are stored as small, structured records under `.agents/context-gaps/`.
+
+For example:
+
+```json
+{
+  "$schema": "./context-gap.schema.json",
+  "id": "deployment-command-is-undiscoverable",
+  "status": "proposed",
+  "category": "discoverability",
+  "scope": "repository",
+  "summary": "The supported deployment command is not discoverable from the repository.",
+  "firstObserved": "2026-05-14",
+  "lastObserved": "2026-05-16",
+  "occurrences": 2,
+  "impact": "high",
+  "confidence": "high",
+  "evidence": [
+    {
+      "date": "2026-05-14",
+      "task": "Release a change",
+      "observation": "The agent searched the repository but could not identify the supported deployment path."
+    },
+    {
+      "date": "2026-05-16",
+      "task": "Deploy a preview",
+      "observation": "The command was supplied by a human after the documented commands failed."
+    }
+  ],
+  "recommendation": {
+    "target": "Repository deployment documentation",
+    "change": "Document one supported command and link to it from repository guidance.",
+    "verification": "Ask a fresh agent to deploy a preview without additional direction."
+  },
+  "resolution": null
+}
+```
+
+The real schema also records observation dates, requires one evidence item per occurrence, and supports accepting, resolving, or rejecting a proposal.
+
+The record contains the minimum evidence required to understand the finding. It should never contain secrets, personal data, or a copied conversation transcript.
+
+Before creating a new record, the agent searches for an existing finding with the same underlying cause and proposed destination. If it finds one, it appends the new evidence and increments the occurrence count. That turns repeated friction into an observable signal.
+
+### Validate And Promote Recommendations
+
+Structured findings are only useful if they remain trustworthy. This repository includes a small validator and a command for listing proposed gaps that have crossed a recurrence threshold:
+
+```bash
+pnpm context-gaps:validate
+pnpm context-gaps -- --min-occurrences 2
+```
+
+Recurrence is not the only criterion. A security issue might need action on its first observation, while a low-impact inconvenience might never justify additional infrastructure. Impact, confidence, stability, scope, and maintenance cost all affect the decision.
+
+When a recommendation is implemented, the strongest verification is a fresh task that requires the same knowledge or constraint. Depending on the diagnosis, that could mean:
+
+- Running an existing or new regression test
+- Asking a fresh agent to locate the authoritative source
+- Confirming a skill triggers for a related task
+- Checking that a generator produces the expected shape
+- Comparing the number of clarifications or implementation cycles
+
+The original conversation eventually succeeding isn’t proof that the engineering environment improved.
+
+## What Remains Human?
+
+This loop reduces human administration; it doesn’t remove human judgment.
+
+The agent observes its own friction, performs the initial diagnosis, drafts the recommendation, and can implement narrow authorized improvements. Humans review consequential changes through the same mechanisms they already use for code, tests, documentation, and tooling.
+
+That review is important because an agent can misdiagnose its own failure. It might recommend more documentation when the real problem is poor reasoning, or propose a repository-wide rule based on a single unusual task.
+
+So, agents should be able to propose changes to their environment, but not treat those proposals as truth or bypass normal ownership and review.
+
+## Closing The Outer Loop
+
+Agentic AI shouldn’t create another manual process around software engineering. It should help automate the continuous-improvement process software engineering already depends on.
+
+The agent is no longer only a consumer of instructions, context, tools, and validation. It becomes a probe of their quality and a contributor to their maintenance.
+
+That gives us a practical way to optimize software engineering with agentic AI:
+
+1. Let the agent do real work
+2. Make it inspect the friction it experienced
+3. Route each recommendation to the right engineering artefact
+4. Validate the improvement through normal engineering practice
+5. Give the next human or agent a better environment
+
+The remainder of this series can now follow the evidence. Documentation, work definition, implementation patterns, tooling, and validation aren’t a generic checklist to install before adopting AI. They’re improvement surfaces the agent can help us identify, repair, and maintain.
