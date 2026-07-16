@@ -1,0 +1,120 @@
+@startuml engineering-environment-context-map
+
+title Map the Engineering Environment Before Optimizing the Agent
+caption Start with the software engineering process, then make the context required at each stage accessible from the working environment.
+
+left to right direction
+scale max 2600 width
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundCorner 12
+skinparam defaultFontName Arial
+skinparam defaultFontSize 13
+skinparam ArrowColor #526170
+skinparam ArrowThickness 1
+skinparam packageStyle rectangle
+skinparam packageBorderColor #71808F
+skinparam packageFontColor #263442
+skinparam rectangleBorderColor #71808F
+skinparam rectangleFontColor #263442
+skinparam noteBorderColor #B68424
+skinparam noteBackgroundColor #FFF7D6
+
+actor "Human or agent" as worker
+rectangle "Work\nFeature · fix · maintenance\nincident · investigation" as work #E8F1FA
+
+package "Software engineering process" as process #F7F9FB {
+  rectangle "<b>1. Understand</b>\nWhy does this matter?\nWhat exists today?" as understand #DCEEFF
+  rectangle "<b>2. Define</b>\nWhat must change?\nWhere are the boundaries?" as define #DCEEFF
+  rectangle "<b>3. Design</b>\nHow should it work?\nWhat are the trade-offs?" as design #DCEEFF
+  rectangle "<b>4. Implement</b>\nMake the change in the\nworking environment" as implement #DCEEFF
+  rectangle "<b>5. Validate & review</b>\nIs it correct, safe, usable\nand maintainable?" as validate #DCEEFF
+  rectangle "<b>6. Deliver</b>\nIntegrate, migrate, release\nand deploy safely" as deliver #DCEEFF
+  rectangle "<b>7. Operate & learn</b>\nObserve real behaviour\nand feed learning back" as operate #DCEEFF
+
+  understand -right-> define
+  define -right-> design
+  design -right-> implement
+  implement -right-> validate
+  validate -right-> deliver
+  deliver -right-> operate
+  operate .left.> understand : learning
+}
+
+worker --> work
+work --> understand
+
+package "Possible context required at each stage" as mapped_context #F4FAF4 {
+  rectangle "<b>Understand</b>\n• user and stakeholder needs\n• strategy, goals and desired outcomes\n• product and domain model\n• current behaviour and known limitations\n• architecture and change history\n• usage, support and production evidence" as c_understand #E2F3E5
+
+  rectangle "<b>Define</b>\n• problem and intended outcome\n• scope and non-goals\n• acceptance and success criteria\n• priority, dependencies and constraints\n• risks, assumptions and open questions\n• owner and decision authority" as c_define #E2F3E5
+
+  rectangle "<b>Design</b>\n• architectural principles and boundaries\n• data, API and integration contracts\n• security, privacy and compliance\n• performance, reliability and accessibility\n• compatibility, migration and rollout\n• alternatives, rationale and trade-offs" as c_design #E2F3E5
+
+  rectangle "<b>Implement</b>\n• repository structure and conventions\n• source, configuration and dependencies\n• types, schemas, APIs and examples\n• templates, generators and migrations\n• setup, commands, tools and permissions\n• current task, workspace and environment state" as c_implement #E2F3E5
+
+  rectangle "<b>Validate & review</b>\n• acceptance criteria and expected behaviour\n• tests, fixtures and representative data\n• static analysis, builds and CI\n• quality, security and compliance checks\n• reviewers, ownership and approval policy\n• evidence required and practical quality bar" as c_validate #E2F3E5
+
+  rectangle "<b>Deliver</b>\n• branch, version and release policy\n• environments and live platform state\n• deployment and migration procedures\n• feature flags, approvals and communication\n• compatibility and dependency coordination\n• rollback, recovery and support readiness" as c_deliver #E2F3E5
+
+  rectangle "<b>Operate & learn</b>\n• outcomes, usage and customer feedback\n• SLOs, telemetry, dashboards and alerts\n• runbooks, ownership and on-call paths\n• incidents, defects and support history\n• security, cost, capacity and reliability\n• lessons that should change future work" as c_operate #E2F3E5
+
+  c_understand -[hidden]right-> c_define
+  c_define -[hidden]right-> c_design
+  c_design -[hidden]right-> c_implement
+  c_implement -[hidden]right-> c_validate
+  c_validate -[hidden]right-> c_deliver
+  c_deliver -[hidden]right-> c_operate
+}
+
+understand -down-> c_understand : needs
+define -down-> c_define : needs
+design -down-> c_design : needs
+implement -down-> c_implement : needs
+validate -down-> c_validate : needs
+deliver -down-> c_deliver : needs
+operate -down-> c_operate : needs
+
+package "How that context should be made available" as availability #FAF7FC {
+  rectangle "<b>Task-specific</b>\nPrompt, issue or work item\nClarifications and decisions\nCurrent plan and progress\nPrevious attempts and failures\n\n<i>Keep with the task; do not turn\nevery detail into repository guidance.</i>" as task_context #EEE3F5
+
+  rectangle "<b>Durable repository context</b>\nREADME and AGENTS.md routing\nDocumentation, glossary and ADRs\nCode, configuration and history\nTypes, schemas, APIs and examples\nScripts, templates, tests, CI and runbooks\n\n<i>Encode stable local knowledge and\nenforce constraints where possible.</i>" as repository_context #EEE3F5
+
+  rectangle "<b>External authoritative context</b>\nProduct, research and design systems\nIssue trackers and service catalogues\nOrganisation, legal and security policies\nPlatform and dependency documentation\n\n<i>Link or retrieve it from the repository;\ndo not maintain a conflicting copy.</i>" as external_context #EEE3F5
+
+  rectangle "<b>Transient and live context</b>\nBranch, worktree and uncommitted changes\nInstalled dependencies and active processes\nTools, permissions, network and runtime\nDeployments, flags, metrics, logs and incidents\n\n<i>Inspect or query it when the task runs;\ndo not persist accidental state.</i>" as live_context #DDF1F1
+
+  rectangle "<b>Controlled context</b>\nSecrets and credentials\nPersonal or customer data\nPrivate vulnerabilities\nPrivileged systems and operations\n\n<i>Provide authorised, auditable access\nwithout copying sensitive values.</i>" as controlled_context #F7E3E3
+
+  rectangle "<b>Implicit and human context</b>\nTacit domain knowledge and rationale\nUnwritten norms and intended patterns\nInformal ownership and decision rights\nWorkarounds, incentives and risk tolerance\n\n<i>Clarify when needed; make stable and\nrecurring knowledge explicit.</i>" as implicit_context #FFF0BD
+
+  task_context -[hidden]right-> repository_context
+  repository_context -[hidden]right-> external_context
+  external_context -[hidden]right-> live_context
+  live_context -[hidden]right-> controlled_context
+  controlled_context -[hidden]right-> implicit_context
+}
+
+c_understand -[hidden]down-> task_context
+
+note bottom of availability
+  The repository is the working interface, not necessarily the source of every fact.
+  It should contain durable local context and clearly route people and agents to
+  task-specific, external, live, controlled and human sources when they are authoritative.
+
+  Missing, unclear, stale or contradictory context encountered at any stage becomes
+  evidence for the engineering-environment feedback loop explored in the following post.
+end note
+
+legend right
+  |= Colour |= Meaning |
+  |<#DCEEFF> | Engineering process |
+  |<#E2F3E5> | Context mapped to a process stage |
+  |<#EEE3F5> | Durable or authoritative context source |
+  |<#DDF1F1> | Task-time and live state |
+  |<#F7E3E3> | Access-controlled context |
+  |<#FFF0BD> | Implicit or tacit context |
+endlegend
+
+@enduml
