@@ -18,10 +18,6 @@
       "pattern": "www.nomasprime.com",
       "custom_domain": true,
     },
-    {
-      "pattern": "e.nomasprime.com",
-      "custom_domain": true,
-    },
   ],
   "observability": {
     "enabled": true,
