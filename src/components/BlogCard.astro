@@ -108,78 +108,66 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
     href={`/${entry.collection}/${entry.id}`}
     class={blogCardLinkVariants({ variant })}
   >
-    {
-      entry.data.image && (
-        <div class={blogCardImageWrapperVariants({ variant })}>
-          <Image
-            src={entry.data.image}
-            alt={entry.data.title}
-            width={1200}
-            height={630}
-            class={blogCardImageVariants({ variant })}
-          />
-        </div>
-      )
-    }
+    {entry.data.image && (
+      <div class={blogCardImageWrapperVariants({ variant })}>
+        <Image
+          src={entry.data.image}
+          alt={entry.data.title}
+          width={1200}
+          height={630}
+          class={blogCardImageVariants({ variant })}
+        />
+      </div>
+    )}
 
     <div class="grow">
-      <h3 class={blogCardTitleVariants({ variant })}>
-        {entry.data.title}
-      </h3>
+      <h3 class={blogCardTitleVariants({ variant })}>{entry.data.title}</h3>
       <p class={blogCardDescriptionVariants({ variant })}>
         {entry.data.description}
       </p>
 
-      <div
-        class="text-muted-foreground mb-2 flex flex-wrap items-center gap-x-2 text-xs"
-      >
-        {
-          FEATURE_TOGGLE.authors && authors.length > 0 && (
-            <>
-              {authors.map((author) => (
-                <div class="flex items-center gap-x-1.5">
-                  <AvatarComponent
-                    client:load
-                    src={author.avatar}
-                    alt={author.name}
-                    fallback={author.name[0]}
-                    className="size-5 rounded-full"
-                  />
-                  <span>{author.name}</span>
-                </div>
-              ))}
-              <Separator orientation="vertical" className="h-4!" />
-            </>
-          )
-        }
+      <div class="text-muted-foreground mb-2 flex flex-wrap items-center gap-x-2 text-xs">
+        {FEATURE_TOGGLE.authors && authors.length > 0 && (
+          <>
+            {authors.map((author) => (
+              <div class="flex items-center gap-x-1.5">
+                <AvatarComponent
+                  client:load
+                  src={author.avatar}
+                  alt={author.name}
+                  fallback={author.name[0]}
+                  className="size-5 rounded-full"
+                />
+                <span>{author.name}</span>
+              </div>
+            ))}
+            <Separator orientation="vertical" className="h-4!" />
+          </>
+        )}
         <span>{formattedDate}</span>
         <Separator orientation="vertical" className="h-4!" />
         <span>{readTime}</span>
-        {
-          subpostCount > 0 && (
-            <>
-              <Separator orientation="vertical" className="h-4!" />
-              <span class="flex items-center gap-1">
-                <Icon name="lucide:file-text" class="size-3" />
-                {subpostCount} subpost{subpostCount === 1 ? '' : 's'}
-              </span>
-            </>
-          )
-        }
+        {subpostCount > 0 && (
+          <>
+            <Separator orientation="vertical" className="h-4!" />
+            <span class="flex items-center gap-1">
+              <Icon name="lucide:file-text" class="size-3" />
+              {subpostCount} subpost{subpostCount === 1 ? '' : 's'}
+            </span>
+          </>
+        )}
       </div>
 
-      {
-        entry.data.tags && (
-          <div class="flex flex-wrap gap-2">
-            {entry.data.tags.map((tag) => (
-              <Badge variant="secondary" className="flex items-center gap-x-1">
-                <Icon name="lucide:hash" class="size-3" />
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        )
-      }
+      {entry.data.tags && (
+        <div class="flex flex-wrap gap-2">
+          {entry.data.tags.map((tag) => (
+            <Badge variant="secondary" className="flex items-center gap-x-1">
+              <Icon name="lucide:hash" class="size-3" />
+              {tag}
+            </Badge>
+          ))}
+        </div>
+      )}
     </div>
   </Link>
 </div>
