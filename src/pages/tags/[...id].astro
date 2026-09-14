@@ -41,12 +41,10 @@ const { tag, posts } = Astro.props
   />
 
   <ul class="flex flex-col gap-y-4">
-    {
-      posts.map((post) => (
-        <li>
-          <BlogCard entry={post} />
-        </li>
-      ))
-    }
+    {posts.map((post) => (
+      <li>
+        <BlogCard entry={post} />
+      </li>
+    ))}
   </ul>
 </Layout>

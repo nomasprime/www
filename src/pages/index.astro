@@ -16,41 +16,35 @@ const [heroPost, ...remainingPosts] = featuredPosts
 <Layout class="max-w-3xl">
   <PageHead slot="head" title="Home" />
   <section class="flex flex-col gap-y-4">
-    {
-      heroPost && (
-        <ul class="flex flex-col gap-y-4">
-          <li>
-            <BlogCard entry={heroPost} variant="hero" />
-          </li>
-        </ul>
-      )
-    }
+    {heroPost && (
+      <ul class="flex flex-col gap-y-4">
+        <li>
+          <BlogCard entry={heroPost} variant="hero" />
+        </li>
+      </ul>
+    )}
     <EmailSignup />
-    {
-      remainingPosts.length > 0 && (
-        <ul class="flex flex-col gap-y-4">
-          {remainingPosts.map((post) => (
-            <li>
-              <BlogCard entry={post} />
-            </li>
-          ))}
-        </ul>
-      )
-    }
-    {
-      posts.length > SITE.featuredPostCount && (
-        <div class="flex justify-center">
-          <Link
-            href="/posts"
-            class={buttonVariants({ variant: 'ghost' }) + ' group'}
-          >
-            See all posts{' '}
-            <span class="ml-1.5 transition-transform group-hover:translate-x-1">
-              &rarr;
-            </span>
-          </Link>
-        </div>
-      )
-    }
+    {remainingPosts.length > 0 && (
+      <ul class="flex flex-col gap-y-4">
+        {remainingPosts.map((post) => (
+          <li>
+            <BlogCard entry={post} />
+          </li>
+        ))}
+      </ul>
+    )}
+    {posts.length > SITE.featuredPostCount && (
+      <div class="flex justify-center">
+        <Link
+          href="/posts"
+          class={buttonVariants({ variant: 'ghost' }) + ' group'}
+        >
+          See all posts{' '}
+          <span class="ml-1.5 transition-transform group-hover:translate-x-1">
+            &rarr;
+          </span>
+        </Link>
+      </div>
+    )}
   </section>
 </Layout>

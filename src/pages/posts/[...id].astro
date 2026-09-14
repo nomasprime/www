@@ -64,26 +64,20 @@ const tocSections = await getTOCSections(currentPostId)
 
 <Layout>
   <PostHead slot="head" post={post} />
-  {
-    (hasChildPosts || isCurrentSubpost) && (
-      <SubpostsHeader
-        slot="subposts-navigation"
-        parentId={isCurrentSubpost ? getParentId(currentPostId) : currentPostId}
-      />
-    )
-  }
-  {
-    headings?.length > 0 &&
-      !(
-        isCurrentSubpost &&
-        headings.length === 1 &&
-        headings[0].text === post.data.title
-      ) && <TOCHeader slot="table-of-contents" headings={headings} />
-  }
+  {(hasChildPosts || isCurrentSubpost) && (
+    <SubpostsHeader
+      slot="subposts-navigation"
+      parentId={isCurrentSubpost ? getParentId(currentPostId) : currentPostId}
+    />
+  )}
+  {headings?.length > 0 &&
+    !(
+      isCurrentSubpost &&
+      headings.length === 1 &&
+      headings[0].text === post.data.title
+    ) && <TOCHeader slot="table-of-contents" headings={headings} />}
 
-  <section
-    class="grid grid-cols-[minmax(0px,1fr)_min(calc(var(--breakpoint-md)-2rem),100%)_minmax(0px,1fr)] gap-y-6"
-  >
+  <section class="grid grid-cols-[minmax(0px,1fr)_min(calc(var(--breakpoint-md)-2rem),100%)_minmax(0px,1fr)] gap-y-6">
     <div class="col-start-2">
       <Breadcrumbs
         items={[
@@ -112,17 +106,15 @@ const tocSections = await getTOCSections(currentPostId)
       />
     </div>
 
-    {
-      post.data.image && (
-        <Image
-          src={post.data.image}
-          alt={post.data.title}
-          width={1200}
-          height={630}
-          class="col-span-full mx-auto w-full max-w-5xl object-cover"
-        />
-      )
-    }
+    {post.data.image && (
+      <Image
+        src={post.data.image}
+        alt={post.data.title}
+        width={1200}
+        height={630}
+        class="col-span-full mx-auto w-full max-w-5xl object-cover"
+      />
+    )}
 
     <section class="col-start-2 flex flex-col gap-y-6 text-center">
       <div class="flex flex-col">
@@ -133,84 +125,70 @@ const tocSections = await getTOCSections(currentPostId)
           {post.data.title}
         </h1>
 
-        <div
-          class="text-muted-foreground divide-border mb-4 flex flex-col items-center justify-center divide-y text-xs sm:flex-row sm:flex-wrap sm:divide-x sm:divide-y-0 sm:text-sm"
-        >
-          {
-            FEATURE_TOGGLE.authors && authors.length > 0 && (
-              <div class="flex w-full items-center justify-center gap-x-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
-                {authors.map((author) => (
-                  <div class="flex items-center gap-x-1.5">
-                    <Image
-                      src={author.avatar}
-                      alt={author.name}
-                      width={20}
-                      height={20}
-                      class="rounded-full"
-                    />
-                    {author.isRegistered ? (
-                      <Link
-                        href={`/authors/${author.id}`}
-                        underline
-                        class="text-foreground"
-                      >
-                        <span>{author.name}</span>
-                      </Link>
-                    ) : (
+        <div class="text-muted-foreground divide-border mb-4 flex flex-col items-center justify-center divide-y text-xs sm:flex-row sm:flex-wrap sm:divide-x sm:divide-y-0 sm:text-sm">
+          {FEATURE_TOGGLE.authors && authors.length > 0 && (
+            <div class="flex w-full items-center justify-center gap-x-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
+              {authors.map((author) => (
+                <div class="flex items-center gap-x-1.5">
+                  <Image
+                    src={author.avatar}
+                    alt={author.name}
+                    width={20}
+                    height={20}
+                    class="rounded-full"
+                  />
+                  {author.isRegistered ? (
+                    <Link
+                      href={`/authors/${author.id}`}
+                      underline
+                      class="text-foreground"
+                    >
                       <span>{author.name}</span>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )
-          }
+                    </Link>
+                  ) : (
+                    <span>{author.name}</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
 
-          <div
-            class="flex w-full items-center justify-center gap-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0"
-          >
+          <div class="flex w-full items-center justify-center gap-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
             <span>{formatDate(post.data.date)}</span>
           </div>
 
-          <div
-            class="flex w-full items-center justify-center gap-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0"
-          >
+          <div class="flex w-full items-center justify-center gap-2 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
             <span>
               {postReadingTime}
-              {
-                combinedReadingTime &&
-                  combinedReadingTime !== postReadingTime && (
-                    <span class="text-muted-foreground">
-                      {' '}
-                      ({combinedReadingTime} total)
-                    </span>
-                  )
-              }
+              {combinedReadingTime &&
+                combinedReadingTime !== postReadingTime && (
+                  <span class="text-muted-foreground">
+                    {' '}
+                    ({combinedReadingTime} total)
+                  </span>
+                )}
             </span>
           </div>
 
-          {
-            subpostCount > 0 && (
-              <div class="flex w-full items-center justify-center gap-1 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
-                <Icon name="lucide:file-text" class="size-3" />
-                {subpostCount} subpost{subpostCount === 1 ? '' : 's'}
-              </div>
-            )
-          }
+          {subpostCount > 0 && (
+            <div class="flex w-full items-center justify-center gap-1 py-2 sm:w-fit sm:px-2 sm:py-0 first:sm:pl-0 last:sm:pr-0">
+              <Icon name="lucide:file-text" class="size-3" />
+              {subpostCount} subpost{subpostCount === 1 ? '' : 's'}
+            </div>
+          )}
         </div>
         <div class="flex flex-wrap justify-center gap-2">
-          {
-            post.data.tags &&
-              post.data.tags.length > 0 &&
-              post.data.tags.map((tag) => (
-                <a
-                  href={`/tags/${tag}`}
-                  class={badgeVariants({ variant: 'secondary' })}
-                >
-                  <Icon name="lucide:hash" class="size-3" />
-                  {tag}
-                </a>
-              ))
-          }
+          {post.data.tags &&
+            post.data.tags.length > 0 &&
+            post.data.tags.map((tag) => (
+              <a
+                href={`/tags/${tag}`}
+                class={badgeVariants({ variant: 'secondary' })}
+              >
+                <Icon name="lucide:hash" class="size-3" />
+                {tag}
+              </a>
+            ))}
         </div>
       </div>
 
@@ -221,27 +199,21 @@ const tocSections = await getTOCSections(currentPostId)
       />
     </section>
 
-    {
-      tocSections.length > 0 && (
-        <TOCSidebar sections={tocSections} currentPostId={currentPostId} />
-      )
-    }
+    {tocSections.length > 0 && (
+      <TOCSidebar sections={tocSections} currentPostId={currentPostId} />
+    )}
 
     <article class="prose col-start-2 max-w-none">
       <Content />
       <EmailSignUp heading="Don't miss out on the next post" />
     </article>
 
-    {
-      (hasChildPosts || isCurrentSubpost) && (
-        <SubpostsSidebar
-          parentId={
-            isCurrentSubpost ? getParentId(currentPostId) : currentPostId
-          }
-          className="w-64"
-        />
-      )
-    }
+    {(hasChildPosts || isCurrentSubpost) && (
+      <SubpostsSidebar
+        parentId={isCurrentSubpost ? getParentId(currentPostId) : currentPostId}
+        className="w-64"
+      />
+    )}
 
     <PostNavigation
       newerPost={navigation.newer}
