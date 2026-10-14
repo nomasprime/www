@@ -39,7 +39,7 @@
     "clsx": "^2.1.1",
     "lucide-react": "^1.50.0",
     "patch-package": "^8.0.1",
-    "radix-ui": "^1.6.7",
+    "radix-ui": "^1.7.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "rehype-document": "^7.0.3",
